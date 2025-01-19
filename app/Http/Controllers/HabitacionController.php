@@ -145,8 +145,20 @@ class HabitacionController extends Controller
 
     public function show()
     {
-        $hoteles = Hoteles::all(); // Assuming you have a Hotel model
+        $hoteles = Hoteles::all();
         return view('Public_Views.habitacion', compact('hoteles'));
+    }
+
+    public function show2()
+    {
+        $hoteles = Hoteles::all();
+        return view('Public_Views.habitacion2', compact('hoteles'));
+    }
+
+    public function show3()
+    {
+        $hoteles = Hoteles::all();
+        return view('Public_Views.habitacion3', compact('hoteles'));
     }
 
 }

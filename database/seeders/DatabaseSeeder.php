@@ -17,9 +17,9 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             HotelesSeeder::class,
-            RolesSeeder::class,
-            PersonalSeeder::class,
-            ClienteSeeder::class,
+            //RolesSeeder::class,
+            //PersonalSeeder::class,
+            //ClienteSeeder::class,
             InventarioSeeder::class,
             ProveedoresSeeder::class,
             PromocionesSeeder::class,

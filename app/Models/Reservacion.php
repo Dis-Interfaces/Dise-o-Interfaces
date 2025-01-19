@@ -43,12 +43,17 @@ class Reservacion extends Model
                     ->withTimestamps();
     }
 
-   
+    public function promocion()
+    {
+        return $this->belongsTo(Promociones::class, 'promocion_id');
+    }
+    
 
     public function inventarios()
     {
         return $this->belongsToMany(Inventario::class, 'reservacion_inventarios')
-                    ->withPivot('cantidad', 'precio_unitario', 'subtotal')
+                    ->withPivot('cantidad')
                     ->withTimestamps();
     }
+    
 }

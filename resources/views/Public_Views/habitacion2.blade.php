@@ -37,7 +37,7 @@
     <!-- Sección de Habitaciones -->
     <section id="rooms" class="rooms">
         <div class="section-title">
-            <h2>Hotel Sol</h2>
+            <h2>Hotel Mar</h2>
         </div>
         <div class="room-booking-container">
             <div class="room-grid">
@@ -79,7 +79,7 @@
                             <div class="form-group">
                                 <label for="hotel_id">Hotel:</label>
                                 <select id="hotel_id" name="hotel_id" class="form-control" required>
-                                    <option value="1">Hotel Sol</option>
+                                    <option value="2">Hotel Mar</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -125,7 +125,6 @@
                 </div>
             </div>
         </div>
-    <!-- Vincula el script aquí -->
     @if ($errors->any())
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -243,7 +242,6 @@ function handleFormSubmit(event) {
                 habitacionesDiv.innerHTML += `<input type="hidden" name="habitaciones[]" value="${habitacion.id}">`;
             });
 
-            // Submit the form data using fetch
             fetch(form.action, {
                 method: 'POST',
                 body: new FormData(form),

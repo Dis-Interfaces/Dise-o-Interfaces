@@ -21,7 +21,7 @@ class ReservacionInventario extends Model
         return $this->belongsTo(Reservacion::class, 'reservacion_id');
     }
 
-    public function inventario()
+    public function inventarios()
     {
         return $this->belongsTo(Inventario::class, 'inventario_id');
     }

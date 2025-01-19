@@ -1,4 +1,4 @@
-.main-content{
+.main-content {
     padding-bottom: 20px;
 }
 
@@ -113,4 +113,95 @@
     top: 50%;
     transform: translateY(-50%);
     pointer-events: none;             /* Arrow doesn’t affect click */
+}
+
+.inventory-container {
+    display: flex;
+    flex-wrap: wrap; /* Allows items to wrap into multiple rows */
+    justify-content: center; /* Center items horizontally */
+    gap: 20px; /* Space between items */
+    max-width: 1200px; /* Optional: Set a max width for the container */
+    margin: 0 auto; /* Center the container */
+}
+
+.inventory-item {
+    flex: 0 1 calc(50% - 20px); /* Each item takes up 50% of the row minus gap */
+    box-sizing: border-box; /* Ensures padding and border are included in width */
+    margin-bottom: 10px; /* Space below each item */
+    padding: 10px; /* Add padding for better spacing */
+    border: 1px solid slateblue; /* Border style */
+    border-radius: 5px; /* Rounded corners */
+    background-color: aliceblue; /* Background color */
+    display: flex; /* Use flexbox for item layout */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space between label and buttons */
+}
+
+.inventory-item label {
+    font-weight: bold;
+    color: slateblue;
+    flex: 1; /* Allow label to take up available space */
+}
+
+.inventory-item button {
+    background-color: slateblue;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    padding: 10px 15px; /* Increase button size */
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.inventory-item button:hover {
+    background-color: rgb(98, 0, 255);
+}
+
+.inventory-item input {
+    width: 60px;
+    text-align: center;
+    border: 1px solid slateblue;
+    border-radius: 3px;
+    background-color: white;
+    margin: 0 10px; /* Add margin to center input */
+}
+
+/* Optional: Adjust the button size for better appearance */
+.inventory-item button {
+    padding: 10px 15px; /* Increase button size */
+}
+
+/* Optional: Adjust the input size for better appearance */
+.inventory-item input {
+    width: 60px; /* Fixed width for input */
+    text-align: center; /* Center text in input */
+    border: 1px solid slateblue; /* Border style */
+    border-radius: 3px; /* Rounded corners */
+    background-color: white; /* Background color */
+    margin: 0 10px; /* Margin for spacing */
+}
+
+.title {
+    color: aqua;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 70%;
+    margin: 0 auto; 
+    text-align: center; 
+}
+
+.section-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.section-container p{
+    font-size: 24px;
+}
+
+.section-title {
+    color: slateblue;
+    font-size: 40px;
+    margin-top: 20px;
+    margin-bottom: 10px;
 }

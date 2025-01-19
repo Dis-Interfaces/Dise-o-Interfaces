@@ -68,49 +68,59 @@
     <div class="hero-content">
         <h1>Deja de Trabajar en Laravel y Ven a Vacacionar</h1>
         <p>No a los cuatris: <strong>de 3 meses</strong></p>
-        <button class="btn">Reserva Ahora</button>
+        <a href="#hotels">
+            <button class="btn">Reserva Ahora</button>
+        </a>
     </div>
 </section>
-<section class="hotels">
+<section id="hotels" class="hotels">
     <div class="hotel-card">
         <img src="img/hotel.jpg" alt="CHN Hotel Monterrey">
-        <h3>CHN Hotel Monterrey Norte, Trademark Collection</h3>
+        <h3>Hotel Luna</h3>
         <p class="rating">7.6 <span>Buena</span> (1,025 opiniones)</p>
         <p class="price">
             MXN$1,540 <span class="old-price">MXN$2,200</span>
         </p>
         <p class="total">por noche<br>MXN$3,665 en total impuestos y cargos incluidos</p>
-        <button class="btn">Accede a un Precio para socios</button>
+        <a href="{{ route('habitacion3') }}">
+            <button class="btn">Reservar</button>
+        </a>
     </div>
     <div class="hotel-card">
         <img src="img/hotel2.jpg" alt="Safi Royal Luxury Centro">
-        <h3>Safi Royal Luxury Centro</h3>
+        <h3>Hotel Sol</h3>
         <p class="rating">8.4 <span>Muy buena</span> (1,586 opiniones)</p>
         <p class="price">
             MXN$1,542 <span class="old-price">MXN$3,465</span>
         </p>
         <p class="total">por noche<br>MXN$3,670 en total impuestos y cargos incluidos</p>
-        <button class="btn">Accede a un Precio para socios</button>
+        <a href="{{ route('habitacion') }}">
+            <button class="btn">Reservar</button>
+        </a>
     </div>
     <div class="hotel-card">
         <img src="img/hotel3.jpg" alt="Radisson Hotel Monterrey">
-        <h3>Radisson Hotel Monterrey San Jeronimo</h3>
+        <h3>Hotel Mar</h3>
         <p class="rating">8.2 <span>Muy buena</span> (1,000 opiniones)</p>
         <p class="price">
             MXN$1,750 <span class="old-price">MXN$2,500</span>
         </p>
         <p class="total">por noche<br>MXN$4,165 en total impuestos y cargos incluidos</p>
-        <button class="btn">Accede a un Precio para socios</button>
-    </div>
+        <a href="{{ route('habitacion2') }}">
+            <button class="btn">Reservar</button>
+        </a> 
+       </div>
     <div class="hotel-card">
         <img src="img/hotel5.jpg" alt="Krystal Grand Suites Insurgentes">
-        <h3>Krystal Grand Suites Insurgentes</h3>
+        <h3>Hotel Sol</h3>
         <p class="rating">9.0 <span>Magnífica</span> (1,129 opiniones)</p>
         <p class="price">
             MXN$1,856 <span class="old-price">MXN$2,856</span>
         </p>
         <p class="total">por noche<br>MXN$4,436 en total impuestos y cargos incluidos</p>
-        <button class="btn">Accede a un Precio para socios</button>
+        <a href="{{ route('habitacion') }}">
+            <button class="btn">Reservar</button>
+        </a>
     </div>
 </section>
     
@@ -134,9 +144,9 @@
                     <div class="text-content">
                         <h3>Vision</h3>
                         <p>
-                            Ojala y Osiel algun dia aprendan a usar git
-                            <br>Y ya no me borren los archivos de diseño
-                            <br>32% ChatGPT
+                            Ser reconocidos como el hotel líder en hospitalidad y excelencia.
+                            <br>Proveer experiencias únicas que superen las expectativas de nuestros huéspedes.
+                            <br>Compromiso con la innovación y sostenibilidad.
                         </p>
                     </div>
                 </div>
@@ -146,9 +156,9 @@
                     <div class="text-content">
                         <h3>Sobre Nosotros</h3>
                         <p>
-                            Erick Mata Vera loves to play football
-                            <br>Pero la verdad ni la arma
-                            <br>Att: Dr. Investigador Privado
+                            Ofrecer servicios de alta calidad que combinen comodidad y estilo.
+                            <br>Cuidar cada aspecto de la estadía de nuestros huéspedes.
+                            <br>Convertirnos en el lugar predilecto para descansar y crear recuerdos.
                         </p>
                     </div>
                 </div>
@@ -158,12 +168,13 @@
                     <div class="text-content">
                         <h3>Mision</h3>
                         <p>
-                            Si leen esto ya fue demasiada la revision
-                            <br>Porfa profe no me baje puntos
-                            <br>Att: Hotel HUPV
+                            Ofrecer servicios de alta calidad que combinen comodidad y estilo.
+                            <br>Cuidar cada aspecto de la estadía de nuestros huéspedes.
+                            <br>Convertirnos en el lugar predilecto para descansar y crear recuerdos.
                         </p>
                     </div>
                 </div>
+                
             </div>
         </section>
 

@@ -25,4 +25,5 @@ class Habitacion extends Model
     return $this->belongsToMany(Reservacion::class, 'reservacion_habitaciones', 'habitacion_id', 'reservacion_id');
 }
 
+
 }
