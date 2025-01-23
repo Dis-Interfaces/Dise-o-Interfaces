@@ -125,12 +125,14 @@
 </style>
 @section('main.content')
     <div class="container">
-        <br></br>
+        <br><br>
         <h1>Mapa de Ocupación de Habitaciones</h1>
+
+        <!-- Campo de selección de piso con narrador -->
         <div style="width: 60%; display: flex; justify-content: flex-end; margin-bottom: 20px;" class="input-group">
             <form method="GET" action="{{ route('ocupacion.index') }}">
                 <label for="piso">Piso:</label>
-                <select name="piso" id="piso" onchange="this.form.submit()">    
+                <select name="piso" id="piso" onchange="this.form.submit()" aria-label="Seleccione un piso">
                     <option value="" {{ request('piso') == '' ? 'selected' : '' }}>Todos</option>
                     <option value="1" {{ request('piso') == '1' ? 'selected' : '' }}>1</option>
                     <option value="2" {{ request('piso') == '2' ? 'selected' : '' }}>2</option>
@@ -138,6 +140,7 @@
                 </select>
             </form>
         </div>
+
         <div class="hotel-bloques">
             @foreach($habitacionesPorHotel as $hotelId => $habitaciones)
                 <div class="hotel-bloque">
@@ -155,9 +158,11 @@
                             @default
                                 Hotel Desconocido
                         @endswitch
+                    </h2>
+
                     <div class="habitaciones">
                         @foreach($habitaciones as $habitacion)
-                            <div class="habitacion {{ strtolower($habitacion->estado) }}">
+                            <div class="habitacion {{ strtolower($habitacion->estado) }}" aria-label="Habitación número {{ $habitacion->numero_habitacion }} - Estado: {{ ucfirst($habitacion->estado) }}">
                                 {{ $habitacion->numero_habitacion }}
                             </div>
                         @endforeach
@@ -166,4 +171,38 @@
             @endforeach
         </div>
     </div>
+
+    <!-- Agregamos el script para narrar -->
+    <script>
+        function narrar(texto) {
+            window.speechSynthesis.cancel(); 
+            const narrador = new SpeechSynthesisUtterance(texto);
+            narrador.lang = 'es-ES';  
+
+            const vocesDisponibles = window.speechSynthesis.getVoices();
+            const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+        
+            if (vozSeleccionada) {
+                narrador.voice = vozSeleccionada;
+            } else {
+                console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
+            }
+
+            window.speechSynthesis.speak(narrador);
+        }
+
+        document.querySelectorAll('[aria-label]').forEach(elemento => {
+            elemento.addEventListener('mouseover', () => {
+                const descripcion = elemento.getAttribute('aria-label');
+                narrar(descripcion);
+            });
+        });
+
+        document.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('input', () => {
+                const textoIngresado = input.value;
+                narrar(textoIngresado);
+            });
+        });
+    </script>
 @endsection

@@ -8,12 +8,12 @@
 <div class="main-content">
     <main class="table" id="reservaciones_table">
         <section class="table__header">
-            <h1>Lista de Reservaciones</h1>
+            <h1 aria-label="Lista de Reservaciones">Lista de Reservaciones</h1>
             <div class="input-group">
-                <input type="search" placeholder="Buscar...">
+                <input type="search" placeholder="Buscar..." aria-label="Campo de búsqueda de reservaciones">
             </div>
             <div class="top-bar">
-                <a href="{{ route('reservaciones.create') }}" class="edit-button">Añadir Reservación</a>
+                <a href="{{ route('reservaciones.create') }}" class="edit-button" aria-label="Añadir una nueva reservación">Añadir Reservación</a>
             </div>
         </section>
 
@@ -21,37 +21,37 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Código</th>
-                        <th>Cliente</th>
-                        <th>Email</th>
-                        <th>Teléfono</th>
-                        <th>Fecha Entrada</th>
-                        <th>Fecha Salida</th>
-                        <th>Tipo</th>
-                        <th>Monto Total</th>
-                        <th>Método Pago</th>
-                        <th>Acciones</th>
+                        <th aria-label="Código de la reservación">Código</th>
+                        <th aria-label="Nombre del cliente">Cliente</th>
+                        <th aria-label="Email del cliente">Email</th>
+                        <th aria-label="Teléfono del cliente">Teléfono</th>
+                        <th aria-label="Fecha de entrada en la reservación">Fecha Entrada</th>
+                        <th aria-label="Fecha de salida de la reservación">Fecha Salida</th>
+                        <th aria-label="Tipo de la reservación">Tipo</th>
+                        <th aria-label="Monto total de la reservación">Monto Total</th>
+                        <th aria-label="Método de pago de la reservación">Método Pago</th>
+                        <th aria-label="Acciones disponibles para la reservación">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($reservaciones as $reservacion)
                         <tr>
-                            <td>{{ $reservacion->codigo_reservacion }}</td>
-                            <td>{{ $reservacion->nombre }}</td>
-                            <td>{{ $reservacion->email }}</td>
-                            <td>{{ $reservacion->telefono }}</td>
-                            <td>{{ \Carbon\Carbon::parse($reservacion->fecha_entrada)->format('d-m-Y') }}</td>
-                            <td>{{ \Carbon\Carbon::parse($reservacion->fecha_salida)->format('d-m-Y') }}</td>
-                            <td>{{ ucfirst($reservacion->tipo_reservacion) }}</td>
-                            <td>${{ number_format($reservacion->monto_total, 2) }}</td>
-                            <td>{{ ucfirst($reservacion->metodo_pago) }}</td>
+                            <td aria-label="Código de la reservación: {{ $reservacion->codigo_reservacion }}">{{ $reservacion->codigo_reservacion }}</td>
+                            <td aria-label="Nombre del cliente: {{ $reservacion->nombre }}">{{ $reservacion->nombre }}</td>
+                            <td aria-label="Email del cliente: {{ $reservacion->email }}">{{ $reservacion->email }}</td>
+                            <td aria-label="Teléfono del cliente: {{ $reservacion->telefono }}">{{ $reservacion->telefono }}</td>
+                            <td aria-label="Fecha de entrada: {{ \Carbon\Carbon::parse($reservacion->fecha_entrada)->format('d-m-Y') }}">{{ \Carbon\Carbon::parse($reservacion->fecha_entrada)->format('d-m-Y') }}</td>
+                            <td aria-label="Fecha de salida: {{ \Carbon\Carbon::parse($reservacion->fecha_salida)->format('d-m-Y') }}">{{ \Carbon\Carbon::parse($reservacion->fecha_salida)->format('d-m-Y') }}</td>
+                            <td aria-label="Tipo de la reservación: {{ ucfirst($reservacion->tipo_reservacion) }}">{{ ucfirst($reservacion->tipo_reservacion) }}</td>
+                            <td aria-label="Monto total: ${{ number_format($reservacion->monto_total, 2) }}">${{ number_format($reservacion->monto_total, 2) }}</td>
+                            <td aria-label="Método de pago: {{ ucfirst($reservacion->metodo_pago) }}">{{ ucfirst($reservacion->metodo_pago) }}</td>
                             <td>
                                 <div class="action-buttons">
-                                    <a href="{{ route('reservaciones.edit', $reservacion->id) }}" class="edit-button">Editar</a>
+                                    <a href="{{ route('reservaciones.edit', $reservacion->id) }}" class="edit-button" aria-label="Editar esta reservación">Editar</a>
                                     <form action="{{ route('reservaciones.destroy', $reservacion->id) }}" method="POST" style="display:inline;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="delete-button">Borrar</button>
+                                        <button type="submit" class="delete-button" aria-label="Borrar esta reservación">Borrar</button>
                                     </form>
                                 </div>
                             </td>
@@ -62,4 +62,38 @@
         </section>
     </main>
 </div>
+
+<script>
+    function narrar(texto) {
+        window.speechSynthesis.cancel(); 
+        const narrador = new SpeechSynthesisUtterance(texto);
+        narrador.lang = 'es-ES'; 
+
+        const vocesDisponibles = window.speechSynthesis.getVoices();
+        const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+    
+        if (vozSeleccionada) {
+            narrador.voice = vozSeleccionada;
+        } else {
+            console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
+        }
+
+        window.speechSynthesis.speak(narrador);
+    }
+
+    document.querySelectorAll('[aria-label]').forEach(elemento => {
+        elemento.addEventListener('mouseover', () => {
+            const descripcion = elemento.getAttribute('aria-label');
+            narrar(descripcion);
+        });
+    });
+
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', () => {
+            const textoIngresado = input.value;
+            narrar(textoIngresado);
+        });
+    });
+</script>
+
 @endsection

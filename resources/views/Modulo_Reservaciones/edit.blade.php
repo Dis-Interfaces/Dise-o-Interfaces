@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('head.content')
-<link rel="stylesheet" href="{{ asset('css/form.css') }}">
+<link rel="stylesheet" href="{{ asset('/css/anadir.css') }}">
 @endsection
 
 @section('main.content')
@@ -88,4 +88,33 @@
         <button type="submit" class="submit-button">Actualizar</button>
     </form>
 </div>
+
+<script>
+    function narrarTexto(texto) {
+      const utterance = new SpeechSynthesisUtterance(texto);
+      utterance.lang = 'es-ES';
+      speechSynthesis.speak(utterance);
+    }
+
+    document.querySelectorAll('.form-group label').forEach(elemento => {
+      elemento.addEventListener('mouseover', () => narrarTexto(elemento.textContent.trim()));
+    });
+
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', () => narrarTexto(input.value));
+      input.addEventListener('focus', () => narrarTexto(input.placeholder || input.value));
+    });
+
+    document.querySelectorAll('select').forEach(select => {
+      select.addEventListener('focus', () => narrarTexto(select.options[select.selectedIndex].text));
+      select.addEventListener('change', () => narrarTexto(select.options[select.selectedIndex].text));
+    });
+
+    document.querySelectorAll('textarea').forEach(textarea => {
+      textarea.addEventListener('focus', () => narrarTexto(textarea.placeholder || textarea.value));
+      textarea.addEventListener('input', () => narrarTexto(textarea.value));
+    });
+
+    document.querySelector('.submit-button').addEventListener('click', () => narrarTexto('Actualizando reservación'));
+</script>
 @endsection

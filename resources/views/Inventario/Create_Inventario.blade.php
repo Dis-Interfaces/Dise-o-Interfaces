@@ -57,6 +57,7 @@
             </div>
         </form>
     </div>
+    
     @if ($errors->any())
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
@@ -76,13 +77,39 @@
 @section('sidebar.content')
     <div class="sidebar-content" class="active">
         <a href="{{ route('inventario.index') }}">
-                Stock
+            Stock
         </a>
     </div>
 
     <div class="sidebar-content">
-    <a href="{{ route('ordenes-compra.index') }}">
-        Ordenes
+        <a href="{{ route('ordenes-compra.index') }}">
+            Ordenes
         </a>
     </div>    
+@endsection
+
+@section('scripts')
+<script>
+    function narrar(texto) {
+        window.speechSynthesis.cancel(); 
+        const narrador = new SpeechSynthesisUtterance(texto);
+        narrador.lang = 'es-ES';
+
+        const vocesDisponibles = window.speechSynthesis.getVoices();
+        const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+        if (vozSeleccionada) {
+            narrador.voice = vozSeleccionada;
+        } else {
+            console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
+        }
+
+        window.speechSynthesis.speak(narrador);
+    }
+
+    document.querySelectorAll('input, select').forEach(function(element) {
+        element.addEventListener('input', function() {
+            narrar(`Ingresando: ${this.value}`);
+        });
+    });
+</script>
 @endsection
