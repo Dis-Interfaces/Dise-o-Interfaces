@@ -6,7 +6,7 @@
 
 @section('main.content')
 <div class="main-content">
-    <main class="table" id="customers_table"> 
+    <main class="table" id="customers_table">
         <section class="table__header">
             <h1>Clientes</h1>
             <div class="input-group">
@@ -32,7 +32,7 @@
                     @foreach($clientes as $cliente)
                     <tr>
                         <td>{{ $cliente->nombre }}</td>
-                        <td>{{ $cliente->apellidos }}</td> 
+                        <td>{{ $cliente->apellidos }}</td>
                         <td>{{ $cliente->email }}</td>
                         <td>{{ $cliente->telefono }}</td>
                         <td>{{ $cliente->direccion }}</td>

@@ -78,35 +78,50 @@
 @endsection
 
 @section('main.content')
-    <div class="board">
-        @foreach ($estadisticas as $id => $hotel)
-            @php
-               
-                $hotelNombres = [
-                    1 => 'Hotel Sol',
-                    2 => 'Hotel Luna',
-                    3 => 'Hotel Estrella'
-                ];
-                $neonClases = [
-                    1 => 'neon-amber',
-                    2 => 'neon-pink',
-                    3 => 'neon-cyan'
-                ];
-                $nombreHotel = $hotelNombres[$id] ?? 'Hotel Desconocido';
-                $neonClase = $neonClases[$id] ?? 'neon-amber';
-            @endphp
-
-            <div class="card">
-                <div class="chart-title {{ $neonClase }}">
-                    {{ $nombreHotel }}
-                </div>
-                <div class="chart-container">
-                    <canvas id="chart-{{ $id }}"></canvas>
-                    <div class="chart-percentage">{{ $hotel['ocupacion'] }}%</div>
-                </div>
-                <a href="{{ route('ocupacion.index') }}" class="btn-gestionar">Gestionar habitaciones</a>
+    <div class="container">
+        @if(session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
             </div>
-        @endforeach
+        @elseif(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @elseif(session('warning'))
+            <div class="alert alert-warning">
+                {{ session('warning') }}
+            </div>
+        @endif
+
+        <div class="board">
+            @foreach ($estadisticas as $id => $hotel)
+                @php
+                    $hotelNombres = [
+                        1 => 'Hotel Sol',
+                        2 => 'Hotel Luna',
+                        3 => 'Hotel Estrella'
+                    ];
+                    $neonClases = [
+                        1 => 'neon-amber',
+                        2 => 'neon-pink',
+                        3 => 'neon-cyan'
+                    ];
+                    $nombreHotel = $hotelNombres[$id] ?? 'Hotel Desconocido';
+                    $neonClase = $neonClases[$id] ?? 'neon-amber';
+                @endphp
+
+                <div class="card">
+                    <div class="chart-title {{ $neonClase }}">
+                        {{ $nombreHotel }}
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart-{{ $id }}"></canvas>
+                        <div class="chart-percentage">{{ $hotel['ocupacion'] }}%</div>
+                    </div>
+                    <a href="{{ route('ocupacion.index') }}" class="btn-gestionar">Gestionar habitaciones</a>
+                </div>
+            @endforeach
+        </div>
     </div>
 @endsection
 
@@ -118,9 +133,9 @@
             const ctx = document.getElementById(`chart-${id}`).getContext('2d');
             const { ocupacion, disponibilidad } = estadisticas[id];
             const colors = {
-                1: ['#FFBF00', '#292929'], 
-                2: ['#FF00FF', '#292929'], 
-                3: ['#00FFFF', '#292929'], 
+                1: ['#FFBF00', '#292929'],
+                2: ['#FF00FF', '#292929'],
+                3: ['#00FFFF', '#292929'],
             };
 
             new Chart(ctx, {

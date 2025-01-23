@@ -16,7 +16,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #53484E; 
+    background: #53484E;
     padding: 1rem;
 }
 
@@ -33,7 +33,7 @@ body {
 }
 
 .navbar .nav-links a {
-    color: #FAF6F0; 
+    color: #FAF6F0;
     text-decoration: none;
 }
 
@@ -113,9 +113,9 @@ body {
 /* Habitación destacada */
 .featured-room {
     background-color: #D7B58F; /* Habitaciones destacadas */
-    color: #53484E; 
+    color: #53484E;
     grid-column: span 2;
-    
+
     padding: 2rem;
     text-align: left;
     display: flex;
@@ -164,7 +164,7 @@ body {
     border: 1px solid #ddd;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
+
 }
 
 .room img {

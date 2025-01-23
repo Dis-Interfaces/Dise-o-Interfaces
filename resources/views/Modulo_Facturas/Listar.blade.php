@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head> 
+<head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard</title>
@@ -31,7 +31,7 @@
         <span>Personal</span>
       </div>
       <div class="menu-item">
-        <a href="{{ route('facturacion')}}"> 
+        <a href="{{ route('facturacion')}}">
           <img src="img/Facturas.png" alt="Facturas">
           <span>Facturas</span>
         </a>
@@ -68,7 +68,7 @@
 
     <div class="container2">
     <input type="text" class="facturas-search" placeholder="Buscar por ID" id="search-id">
-    
+
     <table class="facturas-table">
         <thead class="facturas-thead">
             <tr>

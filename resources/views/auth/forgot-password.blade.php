@@ -16,7 +16,7 @@
         <!-- Validation Errors -->
         <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-        <form method="POST" action="{{ route('password.email') }}">
+        <form method="POST" action="{{ route('password.email') }}" id="password-reset-form">
             @csrf
 
             <!-- Email Address -->
@@ -33,4 +33,93 @@
             </div>
         </form>
     </x-auth-card>
+
+    <div id="toast-container" style="position: fixed; top: 20px; right: 20px; z-index: 1000;"></div>
+
+    <script>
+        const errorSound = new Audio('/path/to/error.mp3'); // Cambia el path por la ruta correcta de tu sonido.
+
+        // Validación del formulario
+        document.getElementById('password-reset-form').addEventListener('submit', function(event) {
+            let hasError = false;
+            const errors = []; // Arreglo de errores
+
+            const emailInput = document.getElementById('email');
+            const toastContainer = document.getElementById('toast-container');
+
+            clearToasts(); // Limpiar notificaciones previas
+
+            // Validar que el correo electrónico no esté vacío
+            if (emailInput.value.trim() === '') {
+                errors.push({ message: 'El correo electrónico es obligatorio.', icon: 'fa-envelope' });
+                hasError = true;
+            }
+            // Validar formato del correo electrónico
+            else if (!validateEmail(emailInput.value)) {
+                errors.push({ message: 'Por favor ingresa un correo electrónico válido.', icon: 'fa-envelope' });
+                hasError = true;
+            }
+
+            // Mostrar errores
+            if (hasError) {
+                event.preventDefault();
+                errors.forEach(error => {
+                    showToast(error.message, error.icon);
+                });
+                errorSound.play();
+            }
+        });
+
+        // Validar formato de correo electrónico
+        function validateEmail(email) {
+            const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            return emailPattern.test(email);
+        }
+
+        // Mostrar notificaciones tipo toast
+        function showToast(message, icon) {
+            const toastContainer = document.getElementById('toast-container');
+
+            const toast = document.createElement('div');
+            toast.classList.add('toast');
+            toast.style.cssText = `
+                display: flex;
+                align-items: center;
+                padding: 10px 20px;
+                background-color: #f44336;
+                color: white;
+                border-radius: 5px;
+                margin-bottom: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            `;
+
+            toast.innerHTML = `<i class="fas ${icon}" style="margin-right: 10px;"></i> ${message}`;
+            toastContainer.appendChild(toast);
+
+            narrateMessage(message);
+
+            setTimeout(() => {
+                toast.remove();
+            }, 4000);
+        }
+
+        // Narrar mensajes
+        function narrateMessage(message) {
+            window.speechSynthesis.cancel();
+            const narration = new SpeechSynthesisUtterance(message);
+            narration.lang = 'es-ES';
+            const voices = window.speechSynthesis.getVoices();
+            const selectedVoice = voices.find(voice => voice.lang === 'es-ES');
+            if (selectedVoice) narration.voice = selectedVoice;
+            window.speechSynthesis.speak(narration);
+        }
+
+        // Limpiar notificaciones previas
+        function clearToasts() {
+            const toastContainer = document.getElementById('toast-container');
+            while (toastContainer.firstChild) {
+                toastContainer.removeChild(toastContainer.firstChild);
+            }
+        }
+    </script>
 </x-guest-layout>

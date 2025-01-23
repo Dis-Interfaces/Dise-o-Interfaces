@@ -100,3 +100,63 @@ h2 {
     display: block; /* Centra en el contenedor */
     padding-top: 10px; /* Ajusta el espaciado superior si es necesario */
 }
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    display: flex;
+    align-items: center;
+    visibility: hidden;
+    margin-top: 5px;
+}
+
+.error-message span {
+    margin-left: 10px;
+}
+
+.error-icon {
+    font-size: 1.5em;
+}
+
+.input-group.error .error-message {
+    visibility: visible;
+}
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transform: translateX(100%);
+    animation: slideIn 0.5s forwards, fadeOut 0.5s 3s forwards;
+}
+
+.toast i {
+    margin-right: 10px;
+}
+
+@keyframes slideIn {
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}

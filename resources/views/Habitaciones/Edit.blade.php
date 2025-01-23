@@ -8,7 +8,7 @@
 @section('main.content')
 <div class="main-content">
     <h2>Editar Habitación</h2>
-    <form action="{{ route('habitaciones.update', $habitacion->id) }}" method="POST">
+    <form action="{{ route('habitaciones.update', $habitacion->id) }}" method="POST" id="editRoomForm">
         @csrf
         @method('PUT')
         <div class="input-group">
@@ -67,12 +67,74 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     window.onload = function () {
-        Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            html: `{!! implode('<br>', $errors->all()) !!}`,
-            confirmButtonText: 'Entendido'
-        });
+        const form = document.getElementById('editRoomForm');
+        const errors = [];
+        let hasError = false;
+
+        // Validación: Hotel
+        const hotelId = form.querySelector('select[name="hotel_id"]');
+        if (!hotelId.value) {
+            errors.push({ message: 'El hotel es obligatorio.', icon: 'fa-building' });
+            hasError = true;
+        }
+
+        // Validación: Tipo de habitación
+        const tipoHabitacionId = form.querySelector('select[name="tipo_habitacion_id"]');
+        if (!tipoHabitacionId.value) {
+            errors.push({ message: 'El tipo de habitación es obligatorio.', icon: 'fa-bed' });
+            hasError = true;
+        }
+
+        // Validación: Número de habitación
+        const numeroHabitacion = form.querySelector('input[name="numero_habitacion"]');
+        if (!numeroHabitacion.value) {
+            errors.push({ message: 'El número de habitación es obligatorio.', icon: 'fa-hotel' });
+            hasError = true;
+        }
+
+        // Validación: Tarifa
+        const tarifa = form.querySelector('input[name="tarifa"]');
+        if (!tarifa.value || tarifa.value <= 0) {
+            errors.push({ message: 'La tarifa debe ser mayor a 0.', icon: 'fa-dollar-sign' });
+            hasError = true;
+        }
+
+        // Validación: Estado
+        const estado = form.querySelector('select[name="estado"]');
+        if (!estado.value) {
+            errors.push({ message: 'El estado de la habitación es obligatorio.', icon: 'fa-flag' });
+            hasError = true;
+        }
+
+        // Validación: Piso
+        const piso = form.querySelector('select[name="piso"]');
+        if (!piso.value) {
+            errors.push({ message: 'El piso es obligatorio.', icon: 'fa-building' });
+            hasError = true;
+        }
+
+        // Si hay errores, mostrar la notificación
+        if (hasError) {
+            // Mostrar los errores en un modal de SweetAlert
+            const errorMessages = errors.map(error => `<div><i class="fa ${error.icon}"></i> ${error.message}</div>`).join('');
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                html: errorMessages,
+                confirmButtonText: 'Entendido'
+            });
+
+            // Función para narrar los errores
+            const speakErrors = (message) => {
+                const utterance = new SpeechSynthesisUtterance(message);
+                utterance.lang = 'es-ES'; // Establecer el idioma a español
+                window.speechSynthesis.speak(utterance);
+            };
+
+            // Narrar los errores si existen
+            const messageToRead = errors.map(error => error.message).join('. ');
+            speakErrors(messageToRead);
+        }
     };
 </script>
 @endif

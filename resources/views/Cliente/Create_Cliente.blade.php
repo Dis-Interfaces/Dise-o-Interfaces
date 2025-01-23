@@ -6,7 +6,7 @@
 @endsection
 
 @section('main.content')
-    <div class="main-content"> 
+    <div class="main-content">
         <h2>Registro de Cliente</h2>
         <form action="{{ route('clientes.store') }}" method="POST">
             @csrf
@@ -56,11 +56,20 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         window.onload = function () {
+            const errorMessages = `{!! implode('<br>', $errors->all()) !!}`;
+
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                html: `{!! implode('<br>', $errors->all()) !!}`,
-                confirmButtonText: 'Entendido'
+                html: errorMessages,
+                confirmButtonText: 'Entendido',
+                didOpen: () => {
+                    const liveRegion = document.createElement('div');
+                    liveRegion.setAttribute('aria-live', 'assertive');
+                    liveRegion.setAttribute('role', 'alert');
+                    liveRegion.setAttribute('aria-label', `Se han encontrado los siguientes errores: ${errorMessages}`);
+                    document.body.appendChild(liveRegion);
+                }
             });
         };
     </script>

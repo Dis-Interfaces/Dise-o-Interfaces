@@ -10,7 +10,7 @@
         <h2>Editar Cliente</h2>
         <form action="{{ route('clientes.update', $cliente->id) }}" method="POST">
             @csrf
-            @method('PUT')  
+            @method('PUT')
 
             <div class="input-group">
                 <label for="nombre">Nombre:</label>
@@ -49,11 +49,22 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         window.onload = function () {
+            // Creamos el contenido de la notificación con los errores
+            const errorMessages = `{!! implode('<br>', $errors->all()) !!}`;
+
+            // Mostramos la notificación de error
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                html: `{!! implode('<br>', $errors->all()) !!}`,
-                confirmButtonText: 'Entendido'
+                html: errorMessages,  // Incluye los errores en el mensaje
+                confirmButtonText: 'Entendido',
+                didOpen: () => {
+                    const liveRegion = document.createElement('div');
+                    liveRegion.setAttribute('aria-live', 'assertive');
+                    liveRegion.setAttribute('role', 'alert');
+                    liveRegion.setAttribute('aria-label', `Se han encontrado los siguientes errores: ${errorMessages}`);
+                    document.body.appendChild(liveRegion);
+                }
             });
         };
     </script>

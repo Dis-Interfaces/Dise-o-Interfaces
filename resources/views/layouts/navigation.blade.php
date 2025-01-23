@@ -1,4 +1,4 @@
-{{-- <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -35,12 +35,11 @@
 
                     <x-slot name="content">
                         <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="{{ route('logout') }}" id="logout-form">
                             @csrf
 
                             <x-dropdown-link :href="route('logout')"
-                                    onclick="event.preventDefault();
-                                                this.closest('form').submit();">
+                                    onclick="event.preventDefault(); showLogoutConfirmation();">
                                 {{ __('Log Out') }}
                             </x-dropdown-link>
                         </form>
@@ -77,16 +76,109 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
+                <form method="POST" action="{{ route('logout') }}" id="logout-form">
                     @csrf
 
                     <x-responsive-nav-link :href="route('logout')"
-                            onclick="event.preventDefault();
-                                        this.closest('form').submit();">
+                            onclick="event.preventDefault(); showLogoutConfirmation();">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
         </div>
     </div>
-</nav> --}}
+</nav>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    // Función para la confirmación de cierre de sesión
+    function showLogoutConfirmation() {
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: '¿Deseas cerrar sesión?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Sí, cerrar sesión',
+            cancelButtonText: 'Cancelar',
+            background: '#f0f0f0',
+            customClass: {
+                title: 'swal-title',
+                input: 'swal-input'
+            },
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // Si el usuario confirma, enviamos el formulario
+                document.getElementById('logout-form').submit();
+            }
+        });
+    }
+
+    // Función para mostrar un error genérico
+    function showErrorNotification(message) {
+        Swal.fire({
+            title: 'Error',
+            text: message,
+            icon: 'error',
+            confirmButtonText: 'Aceptar',
+            background: '#f0f0f0',
+            customClass: {
+                title: 'swal-title',
+                input: 'swal-input'
+            },
+        });
+    }
+
+    // Función para mostrar un mensaje de éxito
+    function showSuccessNotification(message) {
+        Swal.fire({
+            title: '¡Éxito!',
+            text: message,
+            icon: 'success',
+            confirmButtonText: 'Aceptar',
+            background: '#f0f0f0',
+            customClass: {
+                title: 'swal-title',
+                input: 'swal-input'
+            },
+        });
+    }
+
+    // Función para validar si el usuario no ha llenado un campo requerido
+    function validateRequiredField(input, fieldName) {
+        if (!input || input.trim() === '') {
+            showErrorNotification(`${fieldName} es obligatorio.`);
+            return false;
+        }
+        return true;
+    }
+
+    // Función para validar un correo electrónico
+    function validateEmail(email) {
+        const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+        if (!regex.test(email)) {
+            showErrorNotification('Por favor, ingresa un correo electrónico válido.');
+            return false;
+        }
+        return true;
+    }
+
+    // Función para verificar si la contraseña es lo suficientemente segura
+    function validatePassword(password) {
+        if (password.length < 6) {
+            showErrorNotification('La contraseña debe tener al menos 6 caracteres.');
+            return false;
+        }
+        return true;
+    }
+
+    // Función de ejemplo para enviar un formulario y validar
+    function submitForm() {
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        if (validateRequiredField(email, 'Correo electrónico') && validateEmail(email) && validatePassword(password)) {
+            showSuccessNotification('Formulario enviado con éxito.');
+            // Lógica para enviar el formulario
+        }
+    }
+</script>

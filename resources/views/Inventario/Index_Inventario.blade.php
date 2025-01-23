@@ -20,7 +20,7 @@
             <div class="top-bar">
                 <a href="{{ route('pdf') }}" class="delete-button">Generar Reporte</a>
             </div>
-            
+
         </section>
         <section class="table__body">
             <table>
@@ -42,7 +42,7 @@
                         <td>{{ $inventario->hotel->nombre }}</td>
                         <td>{{ $inventario->proveedor->nombre }}</td>
                         <td class="cantidad">{{ $inventario->cantidad }}</td>
-                        <td> 
+                        <td>
                             <button class="decrement-button" data-id="{{ $inventario->id_producto }}">➖</button>
                         </td>
                         <td>{{ $inventario->descripcion }}</td>
@@ -167,5 +167,5 @@
     <a href="{{ route('ordenes-compra.index') }}">
         Ordenes
         </a>
-    </div>    
+    </div>
 @endsection
