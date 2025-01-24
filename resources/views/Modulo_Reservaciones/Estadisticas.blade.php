@@ -81,7 +81,6 @@
     <div class="board">
         @foreach ($estadisticas as $id => $hotel)
             @php
-               
                 $hotelNombres = [
                     1 => 'Hotel Sol',
                     2 => 'Hotel Luna',
@@ -96,15 +95,15 @@
                 $neonClase = $neonClases[$id] ?? 'neon-amber';
             @endphp
 
-            <div class="card">
-                <div class="chart-title {{ $neonClase }}">
+            <div class="card" id="card-{{ $id }}">
+                <div class="chart-title {{ $neonClase }}" id="hotel-title-{{ $id }}">
                     {{ $nombreHotel }}
                 </div>
                 <div class="chart-container">
                     <canvas id="chart-{{ $id }}"></canvas>
                     <div class="chart-percentage">{{ $hotel['ocupacion'] }}%</div>
                 </div>
-                <a href="{{ route('ocupacion.index') }}" class="btn-gestionar">Gestionar habitaciones</a>
+                <a href="{{ route('ocupacion.index') }}" class="btn-gestionar" id="gestionar-btn-{{ $id }}">Gestionar habitaciones</a>
             </div>
         @endforeach
     </div>
@@ -113,6 +112,12 @@
 @section('body.content')
     <script>
         const estadisticas = @json($estadisticas);
+
+        function narrarTexto(texto) {
+            const utterance = new SpeechSynthesisUtterance(texto);
+            utterance.lang = 'es-ES';
+            speechSynthesis.speak(utterance);
+        }
 
         Object.keys(estadisticas).forEach(id => {
             const ctx = document.getElementById(`chart-${id}`).getContext('2d');
@@ -123,6 +128,7 @@
                 3: ['#00FFFF', '#292929'], 
             };
 
+            // Crear gráfico
             new Chart(ctx, {
                 type: 'doughnut',
                 data: {
@@ -142,6 +148,16 @@
                     }
                 }
             });
+
+            const hotelTitle = document.getElementById(`hotel-title-${id}`);
+            hotelTitle.addEventListener('mouseover', () => narrarTexto(hotelTitle.textContent.trim()));
+
+            const ocupacionPercentage = `${ocupacion}% de ocupación`;
+            const chartPercentage = document.querySelector(`#chart-${id}`).nextElementSibling;
+            chartPercentage.addEventListener('mouseover', () => narrarTexto(ocupacionPercentage));
+
+            const gestionarBtn = document.getElementById(`gestionar-btn-${id}`);
+            gestionarBtn.addEventListener('mouseover', () => narrarTexto(gestionarBtn.textContent.trim()));
         });
     </script>
 @endsection

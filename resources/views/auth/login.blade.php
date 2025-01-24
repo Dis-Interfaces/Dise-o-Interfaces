@@ -54,7 +54,6 @@
             });
         });
 
-        // Añadir evento para narrar el texto que se ingresa en los campos
         document.querySelectorAll('input').forEach(input => {
             input.addEventListener('input', () => {
                 const textoIngresado = input.value;

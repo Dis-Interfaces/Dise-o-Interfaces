@@ -79,41 +79,49 @@
 </head>
 <body>
     <div class="report-info">
-        <p>Fecha del reporte: {{ \Carbon\Carbon::now()->format('d/m/Y') }}</p>
+        <p id="report-date" onclick="narrateText('Fecha del reporte: {{ \Carbon\Carbon::now()->format('d/m/Y') }}')">Fecha del reporte: {{ \Carbon\Carbon::now()->format('d/m/Y') }}</p>
     </div>
-    <h1>Reporte de Personal</h1>
+    <h1 id="report-title" onclick="narrateText('Reporte de Personal')">Reporte de Personal</h1>
     <div class="table-container">
         <table>
             <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Puesto</th>
-                <th>Turno</th>
-                <th>Hotel</th>
-                <th>Email</th>
-                <th>Teléfono</th>
-                <th>Estado</th>
+                <th onclick="narrateText('Nombre')">Nombre</th>
+                <th onclick="narrateText('Puesto')">Puesto</th>
+                <th onclick="narrateText('Turno')">Turno</th>
+                <th onclick="narrateText('Hotel')">Hotel</th>
+                <th onclick="narrateText('Email')">Email</th>
+                <th onclick="narrateText('Teléfono')">Teléfono</th>
+                <th onclick="narrateText('Estado')">Estado</th>
             </tr>
             </thead>
             <tbody>
             @forelse ($personal as $persona)
                 <tr>
-                    <td>{{ $persona->nombre }}</td>
-                    <td>{{ $persona->puesto }}</td>
-                    <td>{{ $persona->turno }}</td>
-                    <td>{{ $persona->hotel->nombre ?? 'N/A' }}</td>
-                    <td>{{ $persona->email }}</td>
-                    <td>{{ $persona->telefono }}</td>
-                    <td>{{ $persona->estado }}</td>
+                    <td onclick="narrateText('{{ $persona->nombre }}')">{{ $persona->nombre }}</td>
+                    <td onclick="narrateText('{{ $persona->puesto }}')">{{ $persona->puesto }}</td>
+                    <td onclick="narrateText('{{ $persona->turno }}')">{{ $persona->turno }}</td>
+                    <td onclick="narrateText('{{ $persona->hotel->nombre ?? 'N/A' }}')">{{ $persona->hotel->nombre ?? 'N/A' }}</td>
+                    <td onclick="narrateText('{{ $persona->email }}')">{{ $persona->email }}</td>
+                    <td onclick="narrateText('{{ $persona->telefono }}')">{{ $persona->telefono }}</td>
+                    <td onclick="narrateText('{{ $persona->estado }}')">{{ $persona->estado }}</td>
                 </tr>
             @empty
                 <tr>
-                    <td colspan="7" class="empty-message">No se encontró personal con esos filtros</td>
+                    <td colspan="7" class="empty-message" onclick="narrateText('No se encontró personal con esos filtros')">No se encontró personal con esos filtros</td>
                 </tr>
             @endforelse
             </tbody>
         </table>
     </div>
-    <p style="text-align: right; margin-top: 10px; font-size: 12px;">Total de resultados: {{ $personal->count() }}</p>
+    <p style="text-align: right; margin-top: 10px; font-size: 12px;" onclick="narrateText('Total de resultados: {{ $personal->count() }}')">Total de resultados: {{ $personal->count() }}</p>
+
+    <script>
+        // Function to narrate the text
+        function narrateText(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(utterance);
+        }
+    </script>
 </body>
 </html>

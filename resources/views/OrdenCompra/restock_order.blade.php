@@ -72,21 +72,78 @@
     </div>
     <div class="content">
         <h2>Información del Producto</h2>
-        <p><strong>Fecha del reporte:</strong> {{ \Carbon\Carbon::now()->format('d/m/Y') }}</p>
-        <p><strong>Producto:</strong> {{ $orden->producto->nombre_producto }}</p>
-        <p><strong>Descripción:</strong> {{ $orden->producto->descripcion }}</p>
-        <p><strong>Cantidad:</strong> {{ $quantity }}</p>
-        <p><strong>Precio Por Unidad:</strong> ${{ $price }}</p>
-        <p><strong>Precio Total:</strong> ${{ $totalPrice }}</p>
+        <p aria-label="Fecha del reporte: {{ \Carbon\Carbon::now()->format('d/m/Y') }}">
+            <strong>Fecha del reporte:</strong> {{ \Carbon\Carbon::now()->format('d/m/Y') }}
+        </p>
+        <p aria-label="Producto: {{ $orden->producto->nombre_producto }}">
+            <strong>Producto:</strong> {{ $orden->producto->nombre_producto }}
+        </p>
+        <p aria-label="Descripción: {{ $orden->producto->descripcion }}">
+            <strong>Descripción:</strong> {{ $orden->producto->descripcion }}
+        </p>
+        <p aria-label="Cantidad: {{ $quantity }}">
+            <strong>Cantidad:</strong> {{ $quantity }}
+        </p>
+        <p aria-label="Precio Por Unidad: ${{ $price }}">
+            <strong>Precio Por Unidad:</strong> ${{ $price }}
+        </p>
+        <p aria-label="Precio Total: ${{ $totalPrice }}">
+            <strong>Precio Total:</strong> ${{ $totalPrice }}
+        </p>
 
         <h2>Información del Proveedor</h2>
-        <p><strong>Nombre del Proveedor:</strong> {{ $orden->proveedor->nombre }}</p>
-        <p><strong>Contacto:</strong> {{ $orden->proveedor->telefono }}</p>
-        <p><strong>Envío en:</strong> {{ $orden->proveedor->tiempo_reabastecimiento }} días</p>
+        <p aria-label="Nombre del Proveedor: {{ $orden->proveedor->nombre }}">
+            <strong>Nombre del Proveedor:</strong> {{ $orden->proveedor->nombre }}
+        </p>
+        <p aria-label="Contacto: {{ $orden->proveedor->telefono }}">
+            <strong>Contacto:</strong> {{ $orden->proveedor->telefono }}
+        </p>
+        <p aria-label="Envío en: {{ $orden->proveedor->tiempo_reabastecimiento }} días">
+            <strong>Envío en:</strong> {{ $orden->proveedor->tiempo_reabastecimiento }} días
+        </p>
 
         <h2>Información del Hotel</h2>
-        <p><strong>Nombre del Hotel:</strong> {{ $orden->hotel->nombre }}</p>
-        <p><strong>Dirección:</strong> {{ $orden->hotel->direccion }}</p>
+        <p aria-label="Nombre del Hotel: {{ $orden->hotel->nombre }}">
+            <strong>Nombre del Hotel:</strong> {{ $orden->hotel->nombre }}
+        </p>
+        <p aria-label="Dirección: {{ $orden->hotel->direccion }}">
+            <strong>Dirección:</strong> {{ $orden->hotel->direccion }}
+        </p>
     </div>
+
+    <!-- Script para narrar -->
+    <script>
+        function narrar(texto) {
+            window.speechSynthesis.cancel();  
+            const narrador = new SpeechSynthesisUtterance(texto);
+            narrador.lang = 'es-ES'; 
+
+            const vocesDisponibles = window.speechSynthesis.getVoices();
+            const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+        
+            if (vozSeleccionada) {
+                narrador.voice = vozSeleccionada;
+            } else {
+                console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
+            }
+
+            window.speechSynthesis.speak(narrador);
+        }
+
+        document.querySelectorAll('[aria-label]').forEach(elemento => {
+            elemento.addEventListener('mouseover', () => {
+                const descripcion = elemento.getAttribute('aria-label');
+                narrar(descripcion);
+            });
+        });
+
+        document.querySelectorAll('input, select').forEach(input => {
+            input.addEventListener('input', () => {
+                const textoIngresado = input.value;
+                narrar(textoIngresado);
+            });
+        });
+    </script>
 </body>
+
 </html>

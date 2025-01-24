@@ -23,7 +23,6 @@
                 @endforeach
             </select>
             <input type="checkbox" id="filter_hotel" name="filter_hotel">
-
         </div>
     
         <div class="input-group">
@@ -37,35 +36,56 @@
                 @endforeach
             </select>
             <input type="checkbox" id="filter_proveedor" name="filter_proveedor">
-
         </div>
     
         <div class="button-group">
             <a href="{{ route('inventario.index') }}" class="cancel-button">Cancelar</a>
             <button id="button" type="submit" class="cancel-button">Generar PDF</button>
-        </div>    </form>
-    
+        </div>    
+    </form>
+
     <script>
-            const button = document.getElementById('button');
+        const button = document.getElementById('button');
+        button.style.display = 'none';
 
-            button.style.display = 'none';
+        function verificarCheckboxes() {
+            const filterHotel = document.getElementById('filter_hotel').checked;
+            const filterTurno = document.getElementById('filter_proveedor').checked;
 
-            function verificarCheckboxes() {
-                const filterHotel = document.getElementById('filter_hotel').checked;
-                const filterTurno = document.getElementById('filter_proveedor').checked;
+            button.style.display = (filterHotel || filterTurno) ? 'block' : 'none';
+        }
 
-                button.style.display = (filterHotel || filterTurno) ? 'block' : 'none';
+        document.getElementById('filter_hotel').addEventListener('change', function () {
+            document.getElementById('hotel_id').disabled = !this.checked;
+            verificarCheckboxes(); 
+        });
+
+        document.getElementById('filter_proveedor').addEventListener('change', function () {
+            document.getElementById('proveedor_id').disabled = !this.checked;
+            verificarCheckboxes(); 
+        });
+
+        function narrar(texto) {
+            window.speechSynthesis.cancel();
+            const narrador = new SpeechSynthesisUtterance(texto);
+            narrador.lang = 'es-ES'; 
+
+            const vocesDisponibles = window.speechSynthesis.getVoices();
+            const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+            if (vozSeleccionada) {
+                narrador.voice = vozSeleccionada;
+            } else {
+                console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
             }
 
-            document.getElementById('filter_hotel').addEventListener('change', function () {
-                document.getElementById('hotel_id').disabled = !this.checked;
-                verificarCheckboxes(); 
-            });
+            window.speechSynthesis.speak(narrador);
+        }
 
-            document.getElementById('filter_proveedor').addEventListener('change', function () {
-                document.getElementById('proveedor_id').disabled = !this.checked;
-                verificarCheckboxes(); 
+        document.querySelectorAll('input, select').forEach(function(element) {
+            element.addEventListener('input', function() {
+                narrar(`Ingresando: ${this.value}`);
             });
+        });
     </script>
 </main>
 @endsection

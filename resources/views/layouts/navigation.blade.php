@@ -1,4 +1,4 @@
-{{-- <nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -89,4 +89,24 @@
             </div>
         </div>
     </div>
-</nav> --}}
+</nav>
+
+<script>
+    function narrar(texto) {
+        window.speechSynthesis.cancel();
+        const narrador = new SpeechSynthesisUtterance(texto);
+        narrador.lang = 'es-ES';
+        const vocesDisponibles = window.speechSynthesis.getVoices();
+        const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+        if (vozSeleccionada) {
+            narrador.voice = vozSeleccionada;
+        }
+        window.speechSynthesis.speak(narrador);
+    }
+
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', function () {
+            narrar(`Ingresado: ${this.value}`);
+        });
+    });
+</script>
