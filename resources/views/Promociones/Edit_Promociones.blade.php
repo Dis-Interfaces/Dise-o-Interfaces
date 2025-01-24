@@ -69,16 +69,40 @@
     </form>
 </main>
 
+@if (session('success'))
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    window.onload = function () {
+        const message = "{{ session('success') }}";
+        Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: message,
+            confirmButtonText: 'Entendido'
+        });
+
+        // Narrador de texto
+        const speech = new SpeechSynthesisUtterance(message);
+        window.speechSynthesis.speak(speech);
+    };
+</script>
+@endif
+
 @if ($errors->any())
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     window.onload = function () {
+        const errorMessage = `{!! implode('<br>', $errors->all()) !!}`;
         Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            html: `{!! implode('<br>', $errors->all()) !!}`,
+            html: errorMessage,
             confirmButtonText: 'Entendido'
         });
+
+        // Narrador de texto
+        const speech = new SpeechSynthesisUtterance('Hubo un error al guardar la promoción. Por favor, verifica los campos.');
+        window.speechSynthesis.speak(speech);
     };
 </script>
 @endif

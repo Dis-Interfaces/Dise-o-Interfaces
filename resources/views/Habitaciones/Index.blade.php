@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('head.content')
-<link rel="stylesheet" href="{{ asset('css/listado.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/listado.css') }}">
 @endsection
 
 @section('main.content')
@@ -13,12 +13,13 @@
                 <input type="search" placeholder="Buscar...">
             </div>
             <a href="{{ route('estadisticas.habitaciones') }}" class="btn-estadisticas">
-                    <i class="fas fa-chart-line"></i> Ver Estadísticas
-                </a>
+                <i class="fas fa-chart-line"></i> Ver Estadísticas
+            </a>
             <div class="top-bar">
                 <a href="{{ route('habitaciones.create') }}" class="edit-button">Nueva Habitación</a>
             </div>
-        </section>    
+        </section>
+
         <section class="table__body">
             <table>
                 <thead>
@@ -86,7 +87,7 @@
                                         @method('DELETE')
                                         <button type="submit" class="delete-button">Borrar</button>
                                     </form>
-                                </div>                               
+                                </div>
                             </td>
                         </tr>
                     @endforeach

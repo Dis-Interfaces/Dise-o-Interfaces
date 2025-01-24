@@ -67,20 +67,52 @@
         </div>
     </form>
 
+    {{-- Notificaciones de error --}}
     @if ($errors->any())
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         window.onload = function () {
+            const errorMessage = `{!! implode('<br>', $errors->all()) !!}`;
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
-                html: `{!! implode('<br>', $errors->all()) !!}`,
+                html: errorMessage,
                 confirmButtonText: 'Entendido'
             });
+            speakNotification('Error: ' + `{!! implode('. ', $errors->all()) !!}`);
         };
+
+        // Narrador de notificaciones
+        function speakNotification(message) {
+            const speech = new SpeechSynthesisUtterance(message);
+            speech.lang = 'es-MX';
+            window.speechSynthesis.speak(speech);
+        }
     </script>
     @endif
 
+    {{-- Notificación de éxito --}}
+    @if (session('success'))
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        window.onload = function () {
+            const successMessage = `{!! session('success') !!}`;
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: successMessage,
+                confirmButtonText: 'OK'
+            });
+            speakNotification('Éxito: ' + successMessage);
+        };
+
+        function speakNotification(message) {
+            const speech = new SpeechSynthesisUtterance(message);
+            speech.lang = 'es-MX';
+            window.speechSynthesis.speak(speech);
+        }
+    </script>
+    @endif
 </main>
 @endsection
 

@@ -9,17 +9,7 @@
     <div class="main-content">
         <h2>Registro de Personal</h2>
 
-        {{-- @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif --}}
-
-        <form action="{{ route('personal.store') }}" method="POST">
+        <form action="{{ route('personal.store') }}" method="POST" id="personalForm">
             @csrf
 
             <div class="input-group">
@@ -106,25 +96,67 @@
             </div>
 
             <div class="button-group">
-                <a href="{{ route('personal.index') }}" class="cancel-button">Cancelar</a>
-                <button type="submit" class="cancel-button">Registrar</button>
+                <a href="{{ route('personal.index') }}" class="cancel-button" id="cancelButton">Cancelar</a>
+                <button type="submit" class="register-button" id="registerButton">Registrar</button>
             </div>
-
         </form>
     </div>
 
+    {{-- SweetAlert2 Notifications --}}
     @if ($errors->any())
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        window.onload = function () {
-            Swal.fire({
-                icon: 'error',
-                title: 'Oops...',
-                html: `{!! implode('<br>', $errors->all()) !!}`,
-                confirmButtonText: 'Entendido'
-            });
-        };
-    </script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            window.onload = function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error de validación',
+                    html: `{!! implode('<br>', $errors->all()) !!}`,
+                    confirmButtonText: 'Entendido',
+                    willOpen: () => {
+                        const narrator = new SpeechSynthesisUtterance('Se encontraron errores en el formulario. Por favor corrige los campos marcados.');
+                        window.speechSynthesis.speak(narrator);
+                    }
+                });
+            };
+        </script>
     @endif
 
+    {{-- Success notification --}}
+    @if (session('success'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: '¡Éxito!',
+                text: "{{ session('success') }}",
+                confirmButtonText: 'Perfecto',
+                willOpen: () => {
+                    const narrator = new SpeechSynthesisUtterance('El personal ha sido registrado correctamente.');
+                    window.speechSynthesis.speak(narrator);
+                }
+            });
+        </script>
+    @endif
+
+    {{-- Cancel confirmation --}}
+    <script>
+        document.getElementById('cancelButton').addEventListener('click', function (e) {
+            e.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "Si cancelas, perderás todos los datos ingresados.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Sí, cancelar',
+                cancelButtonText: 'No, continuar',
+                willOpen: () => {
+                    const narrator = new SpeechSynthesisUtterance('¿Estás seguro de que deseas cancelar? Perderás todos los datos ingresados.');
+                    window.speechSynthesis.speak(narrator);
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ route('personal.index') }}";
+                };
+            });
+        });
+    </script>
 @endsection
