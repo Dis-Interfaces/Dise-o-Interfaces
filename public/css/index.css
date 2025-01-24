@@ -28,12 +28,14 @@ body {
 .navbar .nav-links {
     list-style: none;
     display: flex;
-    gap: 1rem;
+    gap: 2rem;
 }
 
 .navbar .nav-links a {
     color: #fff; 
     text-decoration: none;
+    font-size: 35px;
+    font-weight: 700;
 }
 
 .logo {
