@@ -56,9 +56,9 @@
     <!-- Sidebar -->
     <div class="sidebar">
       <div class="sidebar-title">
-      <a href="{{ route('facturacion') }}">
-        <span>Hacer factura</span>
-      </a>
+        <a href="{{ route('facturacion') }}">
+          <span>Hacer factura</span>
+        </a>
       </div>
 
       <div class="sidebar-title">
@@ -67,34 +67,37 @@
     </div>
 
     <div class="container2">
+
     <input type="text" class="facturas-search" placeholder="Buscar por ID" id="search-id">
 
     <table class="facturas-table">
+     <input type="text" class="facturas-search" placeholder="Buscar por ID" id="search-id">
+      
+      <table class="facturas-table">
         <thead class="facturas-thead">
-            <tr>
-                <th class="facturas-th">ID de Factura</th>
-                <th class="facturas-th">Nombre del Cliente</th>
-                <th class="facturas-th">Fecha de Check-out</th>
-                <th class="facturas-th">Monto Total</th>
-                <th class="facturas-th">Modo de Pago</th>
-                <th class="facturas-th">Acción</th>
-            </tr>
+          <tr>
+            <th class="facturas-th">ID de Factura</th>
+            <th class="facturas-th">Nombre del Cliente</th>
+            <th class="facturas-th">Fecha de Check-out</th>
+            <th class="facturas-th">Monto Total</th>
+            <th class="facturas-th">Modo de Pago</th>
+            <th class="facturas-th">Acción</th>
+          </tr>
         </thead>
         <tbody>
-    <tr class="facturas-tr">
-        <td class="facturas-td">1</td>
-        <td class="facturas-td">Juan Perez</td>
-        <td class="facturas-td">2024-11-01</td>
-        <td class="facturas-td">$150.00</td>
-        <td class="facturas-td">PayPal</td>
-        <td class="facturas-td">
-            <a class="facturas-link" href="#">Ver</a>
-            <a class="facturas-link" href="#">Eliminar</a>
-            <a class="facturas-link" href="#">Imprimir</a>
-        </td>
-    </tr>
-
-    <tr class="facturas-tr">
+          <tr class="facturas-tr">
+            <td class="facturas-td">1</td>
+            <td class="facturas-td">Juan Perez</td>
+            <td class="facturas-td">2024-11-01</td>
+            <td class="facturas-td">$150.00</td>
+            <td class="facturas-td">PayPal</td>
+            <td class="facturas-td">
+              <a class="facturas-link" href="#">Ver</a>
+              <a class="facturas-link" href="#">Eliminar</a>
+              <a class="facturas-link" href="#">Imprimir</a>
+            </td>
+          </tr>
+          <tr class="facturas-tr">
         <td class="facturas-td">2</td>
         <td class="facturas-td">Maria Lopez</td>
         <td class="facturas-td">2024-11-02</td>
@@ -144,25 +147,32 @@
             <a class="facturas-link" href="#">Eliminar</a>
             <a class="facturas-link" href="#">Imprimir</a>
         </td>
-    </tr>
-    <!-- Más filas -->
-</tbody>
+          <!-- Más filas -->
+        </tbody>
+      </table>
 
-    </table>
-
-    <div class="facturas-pagination">
+      <div class="facturas-pagination">
         <!-- Paginación aquí -->
-    </div>
-</div>
-
-      <!-- <div class="pagination">
-          <a href="#">« Anterior</a>
-          <a href="#">1</a>
-          <a href="#">2</a>
-          <a href="#">3</a>
-          <a href="#">Siguiente »</a>
-      </div> -->
+      </div>
     </div>
   </div>
+
+  <script>
+    function narrarTexto(texto) {
+      const utterance = new SpeechSynthesisUtterance(texto);
+      utterance.lang = 'es-ES';
+      speechSynthesis.speak(utterance);
+    }
+
+    document.querySelectorAll('.menu-item, .sidebar-title, .facturas-th, .facturas-td').forEach(elemento => {
+      elemento.addEventListener('focus', () => narrarTexto(elemento.textContent.trim()));
+      elemento.addEventListener('mouseover', () => narrarTexto(elemento.textContent.trim()));
+    });
+
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', () => narrarTexto(input.value));
+      input.addEventListener('focus', () => narrarTexto(input.placeholder));
+    });
+  </script>
 </body>
 </html>

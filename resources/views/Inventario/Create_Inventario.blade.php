@@ -115,8 +115,18 @@
 
         // Si hay errores, mostrar la notificación
         if (hasError) {
-            // Mostrar los errores en un modal de SweetAlert
             const errorMessages = errors.map(error => `<div><i class="fa ${error.icon}"></i> ${error.message}</div>`).join('');
+            <div class="button-group">
+                <a href="{{ route('inventario.index') }}" class="cancel-button">Cancelar</a>
+                <button type="submit" class="cancel-button">Registrar</button>
+            </div>
+        </form>
+    </div>
+    
+    @if ($errors->any())
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        window.onload = function () {
             Swal.fire({
                 icon: 'error',
                 title: 'Oops...',
@@ -124,18 +134,55 @@
                 confirmButtonText: 'Entendido'
             });
 
-            // Función para narrar los errores
             const speakErrors = (message) => {
                 const utterance = new SpeechSynthesisUtterance(message);
                 utterance.lang = 'es-ES'; // Establecer el idioma a español
                 window.speechSynthesis.speak(utterance);
             };
 
-            // Narrar los errores si existen
+
             const messageToRead = errors.map(error => error.message).join('. ');
             speakErrors(messageToRead);
         }
     };
 </script>
 
+@section('sidebar.content')
+    <div class="sidebar-content" class="active">
+        <a href="{{ route('inventario.index') }}">
+            Stock
+        </a>
+    </div>
+
+    <div class="sidebar-content">
+        <a href="{{ route('ordenes-compra.index') }}">
+            Ordenes
+        </a>
+    </div>    
+@endsection
+
+@section('scripts')
+<script>
+    function narrar(texto) {
+        window.speechSynthesis.cancel(); 
+        const narrador = new SpeechSynthesisUtterance(texto);
+        narrador.lang = 'es-ES';
+
+        const vocesDisponibles = window.speechSynthesis.getVoices();
+        const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+        if (vozSeleccionada) {
+            narrador.voice = vozSeleccionada;
+        } else {
+            console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
+        }
+
+        window.speechSynthesis.speak(narrador);
+    }
+
+    document.querySelectorAll('input, select').forEach(function(element) {
+        element.addEventListener('input', function() {
+            narrar(`Ingresando: ${this.value}`);
+        });
+    });
+</script>
 @endsection

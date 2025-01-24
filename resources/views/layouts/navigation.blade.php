@@ -179,4 +179,22 @@
 
         }
     }
+<script>
+    function narrar(texto) {
+        window.speechSynthesis.cancel();
+        const narrador = new SpeechSynthesisUtterance(texto);
+        narrador.lang = 'es-ES';
+        const vocesDisponibles = window.speechSynthesis.getVoices();
+        const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+        if (vozSeleccionada) {
+            narrador.voice = vozSeleccionada;
+        }
+        window.speechSynthesis.speak(narrador);
+    }
+
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', function () {
+            narrar(`Ingresado: ${this.value}`);
+        });
+    });
 </script>

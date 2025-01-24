@@ -70,31 +70,46 @@
 </head>
 <body>
     <div class="report-info">
-        <p>Fecha del reporte: {{ \Carbon\Carbon::now()->format('d/m/Y') }}</p>
+        <p id="report-date" onload="narrateText('Fecha del reporte: {{ \Carbon\Carbon::now()->format('d/m/Y') }}')">
+            Fecha del reporte: {{ \Carbon\Carbon::now()->format('d/m/Y') }}
+        </p>
     </div>
-    <h1>Lista de Inventario</h1>
+    <h1 id="report-title" onclick="narrateText('Lista de Inventario')">Lista de Inventario</h1>
+    
     <table>
         <thead>
-        <tr>
-            <th>Producto</th>
-            <th>Hotel</th>
-            <th>Proveedor</th>
-        </tr>
+            <tr>
+                <th onclick="narrateText('Producto')">Producto</th>
+                <th onclick="narrateText('Hotel')">Hotel</th>
+                <th onclick="narrateText('Proveedor')">Proveedor</th>
+            </tr>
         </thead>
         <tbody>
-        @forelse ($inventarios as $inventario)
-            <tr>
-                <td>{{ $inventario->nombre_producto }}</td>
-                <td>{{ $inventario->hotel->nombre }}</td>
-                <td>{{ $inventario->proveedor->nombre }}</td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="3" class="empty-message">No se encontró inventario con esos filtros</td>
-            </tr>
-        @endforelse
+            @forelse ($inventarios as $inventario)
+                <tr>
+                    <td onclick="narrateText('{{ $inventario->nombre_producto }}')">{{ $inventario->nombre_producto }}</td>
+                    <td onclick="narrateText('{{ $inventario->hotel->nombre }}')">{{ $inventario->hotel->nombre }}</td>
+                    <td onclick="narrateText('{{ $inventario->proveedor->nombre }}')">{{ $inventario->proveedor->nombre }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="3" class="empty-message" onclick="narrateText('No se encontró inventario con esos filtros')">
+                        No se encontró inventario con esos filtros
+                    </td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
-    <p style="text-align: right; margin-top: 10px;">Total de resultados: {{ $inventarios->count() }}</p>
+    
+    <p style="text-align: right; margin-top: 10px;" onclick="narrateText('Total de resultados: {{ $inventarios->count() }}')">
+        Total de resultados: {{ $inventarios->count() }}
+    </p>
+
+    <script>
+        function narrateText(text) {
+            const utterance = new SpeechSynthesisUtterance(text);
+            speechSynthesis.speak(utterance);
+        }
+    </script>
 </body>
 </html>

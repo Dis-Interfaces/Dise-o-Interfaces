@@ -16,6 +16,7 @@
 
                 <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
                 <span id="error-email" class="mensaje-error"></span>
+                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus aria-label="Campo para ingresar el correo electrónico" />
             </div>
 
             <div class="mt-4">
@@ -23,6 +24,7 @@
 
                 <x-input id="password" class="block mt-1 w-full" type="password" name="password" required />
                 <span id="error-password" class="mensaje-error"></span>
+                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required aria-label="Campo para ingresar la nueva contraseña" />
             </div>
 
             <div class="mt-4">
@@ -30,6 +32,7 @@
 
                 <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required />
                 <span id="error-confirm-password" class="mensaje-error"></span>
+                <x-input id="password_confirmation" class="block mt-1 w-full" type="password" name="password_confirmation" required aria-label="Campo para confirmar la nueva contraseña" />
             </div>
 
             <div class="flex items-center justify-end mt-4">
@@ -97,4 +100,33 @@
             font-size: 0.9rem;
         }
     </style>
+        function narrar(texto) {
+            window.speechSynthesis.cancel();
+            const narrador = new SpeechSynthesisUtterance(texto);
+            narrador.lang = 'es-ES';
+
+            const vocesDisponibles = window.speechSynthesis.getVoices();
+            const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+            if (vozSeleccionada) {
+                narrador.voice = vozSeleccionada;
+            } else {
+                console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
+            }
+
+            window.speechSynthesis.speak(narrador);
+        }
+
+        document.querySelectorAll('[aria-label]').forEach(elemento => {
+            elemento.addEventListener('mouseover', () => {
+                const descripcion = elemento.getAttribute('aria-label');
+                narrar(descripcion);
+            });
+        });
+
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', (event) => {
+                narrar(event.target.value);
+            });
+        });
+    </script>
 </x-guest-layout>

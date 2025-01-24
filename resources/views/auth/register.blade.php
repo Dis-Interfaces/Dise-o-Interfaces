@@ -160,6 +160,7 @@
             window.speechSynthesis.cancel();
             const narrador = new SpeechSynthesisUtterance(texto);
             narrador.lang = 'es-ES';
+            narrador.lang = 'es-ES'; 
 
             const vocesDisponibles = window.speechSynthesis.getVoices();
             const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
@@ -174,6 +175,12 @@
             elemento.addEventListener('mouseover', () => {
                 const descripcion = elemento.getAttribute('aria-label');
                 narrar(descripcion);
+            });
+        });
+
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', (event) => {
+                narrar(event.target.value);
             });
         });
     </script>

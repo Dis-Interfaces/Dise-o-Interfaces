@@ -1,8 +1,10 @@
 @extends('layouts.app')
 
+
 @section('main.content')
 <div class="container">
     <h1>Crear Reservación</h1>
+    <link rel="stylesheet" href="{{ asset('/css/anadir.css') }}">
     <form action="{{ route('reservaciones.store') }}" method="POST">
         @csrf
 
@@ -50,6 +52,8 @@
 
         <select id="habitaciones" name="habitaciones[]">
         </select>
+        <select id="habitaciones" name="habitaciones[]"></select>
+
 
         <div class="form-group">
             <label for="fecha_entrada">Fecha de Entrada</label>
@@ -63,6 +67,7 @@
 
         <div id="inventario">
         </div>
+        <div id="inventario"></div>
 
         <div class="form-group">
             <label for="codigo_promocional">Cupón Promocional</label>
@@ -91,6 +96,7 @@
         };
     </script>
 @endif
+
 
 <div id="loading" style="display:none;">Cargando...</div>
 
@@ -125,6 +131,37 @@ function fetchOptions() {
             const inventarioDiv = document.getElementById('inventario');
             inventarioDiv.innerHTML = '';
             if (data.inventario && data.inventario.length) {
+<script>
+    function narrarTexto(texto) {
+        const utterance = new SpeechSynthesisUtterance(texto);
+        utterance.lang = 'es-ES';
+        speechSynthesis.speak(utterance);
+    }
+
+    document.querySelectorAll('label, input, select, textarea, button').forEach(elemento => {
+        elemento.addEventListener('focus', () => narrarTexto(elemento.innerText || elemento.placeholder || elemento.value || ''));
+        elemento.addEventListener('mouseover', () => narrarTexto(elemento.innerText || elemento.placeholder || elemento.value || ''));
+    });
+
+    document.querySelectorAll('input, textarea, select').forEach(input => {
+        input.addEventListener('input', () => narrarTexto(input.value));
+    });
+
+    function fetchOptions() {
+        const hotelId = document.getElementById('hotel_id').value;
+        const tipoHabitacionId = document.getElementById('tipo_habitacion_id').value;
+
+        fetch(`/api/filtrar-datos?hotel_id=${hotelId}&tipo_habitacion_id=${tipoHabitacionId}`)
+            .then(response => response.json())
+            .then(data => {
+                const habitacionesSelect = document.getElementById('habitaciones');
+                habitacionesSelect.innerHTML = '';
+                data.habitaciones.forEach(habitacion => {
+                    habitacionesSelect.innerHTML += `<option name="habitaciones" value="${habitacion.id}">${habitacion.numero_habitacion}</option>`;
+                });
+
+                const inventarioDiv = document.getElementById('inventario');
+                inventarioDiv.innerHTML = '';
                 data.inventario.forEach(item => {
                     inventarioDiv.innerHTML += `
                         <div class="form-group d-flex align-items-center">
@@ -170,5 +207,38 @@ function updateQuantity(productId, change) {
         console.error('Error al actualizar el inventario:', error);
     });
 }
+                        </div>`;
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener los datos:', error);
+            });
+    }
+
+    function updateQuantity(productId, change) {
+        const cantidadInput = document.getElementById(`cantidad_${productId}`);
+        let cantidad = parseInt(cantidadInput.value);
+
+        cantidad = Math.max(0, cantidad + change);
+        cantidadInput.value = cantidad;
+
+        fetch(`/api/actualizar-inventario`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id_producto: productId,
+                cantidad: cantidad
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Inventario actualizado:', data);
+        })
+        .catch(error => {
+            console.error('Error al actualizar el inventario:', error);
+        });
+    }
 </script>
 @endsection

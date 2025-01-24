@@ -10,7 +10,7 @@
         <section class="table__header">
             <h1>Promociones</h1>
             <div class="input-group">
-                <input type="search" placeholder="Buscar Promoción...">
+                <input type="search" placeholder="Buscar Promoción..." id="search_promotions">
             </div>
             <div class="top-bar">
                 <a href="{{ route('promociones.create') }}" class="edit-button">Añadir Promoción</a>
@@ -64,4 +64,46 @@
 @section('sidebar.content')
     <div class="sidebar-content">Promociones Activas</div>
     <div class="sidebar-content">Promociones Expiradas</div>
+@endsection
+
+@section('scripts')
+    <script>
+        function speakText(text) {
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'es-ES'; 
+            window.speechSynthesis.speak(speech);
+        }
+
+        const searchInput = document.getElementById('search_promotions');
+        searchInput.addEventListener('focus', function () {
+            speakText("Campo de búsqueda, ingresa el nombre de la promoción.");
+        });
+
+        searchInput.addEventListener('input', function () {
+            speakText("Estás buscando: " + searchInput.value);
+        });
+
+        document.querySelectorAll('table tbody tr').forEach((row) => {
+            row.addEventListener('mouseenter', function () {
+                const rowData = Array.from(row.children).map(cell => cell.textContent).join(", ");
+                speakText("Fila seleccionada: " + rowData);
+            });
+        });
+
+        document.querySelectorAll('.edit-button').forEach((button) => {
+            button.addEventListener('click', function () {
+                speakText("Vas a editar esta promoción.");
+            });
+        });
+
+        document.querySelectorAll('.delete-button').forEach((button) => {
+            button.addEventListener('click', function () {
+                speakText("Vas a borrar esta promoción.");
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            speakText("Bienvenido a la página de promociones. Puedes buscar, editar o eliminar promociones.");
+        });
+    </script>
 @endsection

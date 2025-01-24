@@ -139,4 +139,34 @@
 </script>
 @endif
 
+<script>
+    function narrar(texto) {
+        window.speechSynthesis.cancel(); 
+        const narrador = new SpeechSynthesisUtterance(texto);
+        narrador.lang = 'es-ES';
+
+        const vocesDisponibles = window.speechSynthesis.getVoices();
+        const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+        if (vozSeleccionada) {
+            narrador.voice = vozSeleccionada;
+        } else {
+            console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
+        }
+
+        window.speechSynthesis.speak(narrador);
+    }
+
+    document.querySelectorAll('input, select').forEach(elemento => {
+        elemento.addEventListener('input', () => {
+            const descripcion = elemento.getAttribute('id') + ': ' + elemento.value;
+            narrar(descripcion);
+        });
+
+        elemento.addEventListener('mouseover', () => {
+            const descripcion = elemento.previousElementSibling.textContent + ': ' + (elemento.value || 'sin seleccionar o vacío');
+            narrar(descripcion);
+        });
+    });
+</script>
+
 @endsection

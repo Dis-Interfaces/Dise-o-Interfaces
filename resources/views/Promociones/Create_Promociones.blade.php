@@ -122,3 +122,27 @@
         <li class="sidebar-content"><a href="#">Promociones Expiradas</a></li>
     </ul>
 @endsection
+
+@section('scripts')
+    <script>
+        function speakText(text) {
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'es-ES'; 
+            window.speechSynthesis.speak(speech);
+        }
+
+        document.querySelectorAll('input, textarea, select').forEach((input) => {
+            input.addEventListener('focus', function () {
+                speakText('Ahora puedes ingresar en el campo ' + input.name);
+            });
+
+            input.addEventListener('input', function () {
+                speakText('Estás escribiendo en el campo ' + input.name + ': ' + input.value);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            speakText("Bienvenido, en esta página puedes crear una nueva promoción. Ingresa los datos en los campos correspondientes.");
+        });
+    </script>
+@endsection

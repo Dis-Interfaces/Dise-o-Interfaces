@@ -10,7 +10,7 @@
         <section class="table__header">
             <h1>Lista de Habitaciones</h1>
             <div class="input-group">
-                <input type="search" placeholder="Buscar...">
+                <input type="search" id="searchInput" placeholder="Buscar...">
             </div>
             <a href="{{ route('estadisticas.habitaciones') }}" class="btn-estadisticas">
                 <i class="fas fa-chart-line"></i> Ver Estadísticas
@@ -96,4 +96,28 @@
         </section>
     </main>
 </div>
+
+<script>
+    function narrar(texto) {
+        window.speechSynthesis.cancel(); 
+        const narrador = new SpeechSynthesisUtterance(texto);
+        narrador.lang = 'es-ES';
+
+        const vocesDisponibles = window.speechSynthesis.getVoices();
+        const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+        if (vozSeleccionada) {
+            narrador.voice = vozSeleccionada;
+        } else {
+            console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
+        }
+
+        window.speechSynthesis.speak(narrador);
+    }
+
+    document.getElementById('searchInput').addEventListener('input', function() {
+        const texto = this.value;
+        narrar("Buscando: " + texto);
+    });
+</script>
+
 @endsection

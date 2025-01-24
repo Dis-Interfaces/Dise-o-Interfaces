@@ -115,7 +115,6 @@
 
         // Si hay errores, mostrar la notificación
         if (hasError) {
-            // Mostrar los errores en un modal de SweetAlert
             const errorMessages = errors.map(error => `<div><i class="fa ${error.icon}"></i> ${error.message}</div>`).join('');
             Swal.fire({
                 icon: 'error',
@@ -139,4 +138,43 @@
 </script>
 @endif
 
+@endsection
+@section('sidebar.content')
+    <div class="sidebar-content" class="active">
+        <a href="{{ route('inventario.index') }}">
+                Stock
+        </a>
+    </div>
+
+    <div class="sidebar-content">
+    <a href="{{ route('ordenes-compra.index') }}">
+        Ordenes
+        </a>
+    </div>    
+@endsection
+
+@section('scripts')
+<script>
+    function narrar(texto) {
+        window.speechSynthesis.cancel(); 
+        const narrador = new SpeechSynthesisUtterance(texto);
+        narrador.lang = 'es-ES'; 
+
+        const vocesDisponibles = window.speechSynthesis.getVoices();
+        const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+        if (vozSeleccionada) {
+            narrador.voice = vozSeleccionada;
+        } else {
+            console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
+        }
+
+        window.speechSynthesis.speak(narrador);
+    }
+
+    document.querySelectorAll('input, select').forEach(function(element) {
+        element.addEventListener('input', function() {
+            narrar(`Ingresando: ${this.value}`);
+        });
+    });
+</script>
 @endsection

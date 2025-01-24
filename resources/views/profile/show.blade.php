@@ -12,7 +12,6 @@
             <h1>Tu Informacion</h1>
         </section>
 
-        
         <section class="table__body">
             <table>
                 <thead>
@@ -55,6 +54,7 @@
             </table>
         </section>
     </main>
+
     <div class="action-buttons" id="profile">
         <div class="top-bar">
             <a href="#" class="edit-button">Editar Informacion</a>
@@ -65,4 +65,28 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('scripts')
+    <script>
+        function speakText(text) {
+            const speech = new SpeechSynthesisUtterance(text);
+            speech.lang = 'es-ES'; 
+            window.speechSynthesis.speak(speech);
+        }
+
+        document.querySelectorAll('input, textarea').forEach((input) => {
+            input.addEventListener('focus', function () {
+                speakText('Ahora puedes ingresar en el campo ' + input.name);
+            });
+
+            input.addEventListener('input', function () {
+                speakText('Estás escribiendo: ' + input.value);
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            speakText("Bienvenido, aquí está la información de tu perfil");
+        });
+    </script>
 @endsection
