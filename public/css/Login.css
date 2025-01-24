@@ -9,7 +9,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background: linear-gradient(135deg, #3f3fba, #a32b90);
+    background: #fff;
     font-family: Arial, sans-serif;
 }
 
@@ -27,13 +27,13 @@ body {
 }
 
 h1 {
-    font-size: 24px;
-    color: #a32b90;
+    font-size: 40px;
+    color: black;
 }
 
 p {
     margin-top: 5px;
-    color: #555;
+    color: black;
 }
 
 form {
@@ -41,8 +41,8 @@ form {
 }
 
 h2 {
-    color: #a32b90;
-    font-size: 20px;
+    color: black;
+    font-size: 30px;
 }
 
 .input-group {
@@ -85,7 +85,7 @@ h2 {
 
 .signup-text {
     margin-top: 15px;
-    font-size: 12px;
+    font-size: 15px;
     color: #333;
 }
 .signup-text a {

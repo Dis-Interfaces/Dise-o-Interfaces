@@ -15,7 +15,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #53484E; 
+    background: gray; 
     padding: 1rem;
 }
 
@@ -32,7 +32,7 @@ body {
 }
 
 .navbar .nav-links a {
-    color: #FAF6F0; 
+    color: #fff;
     text-decoration: none;
 }
 
@@ -262,13 +262,13 @@ body {
 /* FOOTER */
 /* Estilo general del footer */
 .footer {
-    background-color: #53484E;
+    background-color: #808080;
     color: #FAF6F0;
     font-family: Arial, sans-serif;
 }
 
 .footer-top {
-    background-color: #53484E;
+    background-color: #808080;
     color: #FAF6F0;
     display: flex;
     justify-content: space-around;

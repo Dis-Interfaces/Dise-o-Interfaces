@@ -18,7 +18,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #333;
+    background: gray;
     padding: 1rem;
 }
 
@@ -291,7 +291,7 @@ button:hover {
 }
 
 .footer-top {
-    background-color: #17a7e0;
+    background-color: #808080;
     display: flex;
     justify-content: space-around;
     align-items: center;
