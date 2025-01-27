@@ -64,24 +64,22 @@
     </section>
 
     <!-- Sección de contacto -->
-    <div class="contact-section">
-        <div class="form-section">
-          <h2 aria-label="Envíanos un correo">Send Us an Email</h2>
-          <form action="#" method="post">
-            <div class="form-row">
-              <input type="text" name="first_name" placeholder="First Name *" required id="first_name" aria-label="Campo para ingresar el nombre">
-              <input type="text" name="last_name" placeholder="Last Name *" required id="last_name" aria-label="Campo para ingresar el apellido">
-            </div>
-            <div class="form-row">
-              <input type="email" name="email" placeholder="Your Email ID *" required id="email" aria-label="Campo para ingresar el correo electrónico">
-              <input type="tel" name="phone" placeholder="Phone Number *" required id="phone" aria-label="Campo para ingresar el número de teléfono">
-            </div>
-            <textarea name="message" rows="4" placeholder="Message" id="message" aria-label="Campo para escribir un mensaje"></textarea>
-            <button type="submit" aria-label="Enviar el formulario de contacto">Submit Now</button>
-          </form>
+    <div class="form-section">
+    <h2 aria-label="Envíanos un correo">Send Us an Email</h2>
+    <form action="#" method="post" id="contact-form">
+        <div class="form-row">
+            <input type="text" name="first_name" placeholder="First Name *" required id="first_name" aria-label="Campo para ingresar el nombre" pattern="[A-Za-zÁ-ÿ ]+" title="Por favor ingresa solo letras">
+            <input type="text" name="last_name" placeholder="Last Name *" required id="last_name" aria-label="Campo para ingresar el apellido" pattern="[A-Za-zÁ-ÿ ]+" title="Por favor ingresa solo letras">
         </div>
-        <!-- Información de contacto con aria-labels -->
-    </div>
+        <div class="form-row">
+            <input type="email" name="email" placeholder="Your Email ID *" required id="email" aria-label="Campo para ingresar el correo electrónico" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Por favor ingresa un correo electrónico válido">
+            <input type="tel" name="phone" placeholder="Phone Number *" required id="phone" aria-label="Campo para ingresar el número de teléfono" pattern="^\+?\d{1,4}?[.-\s]?\(?\d{1,3}\)?[.-\s]?\d{1,3}[.-\s]?\d{1,4}$" title="Por favor ingresa un número de teléfono válido, por ejemplo: +123 456 7890">
+        </div>
+        <textarea name="message" rows="4" placeholder="Message" id="message" aria-label="Campo para escribir un mensaje" required></textarea>
+        <button type="submit" aria-label="Enviar el formulario de contacto">Submit Now</button>
+    </form>
+</div>
+
 
     <!-- Pie de página -->
     <footer class="footer">
@@ -104,37 +102,77 @@
 
     <!-- Script del narrador -->
     <script>
-        function narrar(texto) {
-            window.speechSynthesis.cancel(); 
-            const narrador = new SpeechSynthesisUtterance(texto);
-            narrador.lang = 'es-ES'; 
+    function narrar(texto) {
+        window.speechSynthesis.cancel(); 
+        const narrador = new SpeechSynthesisUtterance(texto);
+        narrador.lang = 'es-ES'; 
 
-            const vocesDisponibles = window.speechSynthesis.getVoices();
-            const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
-        
-            if (vozSeleccionada) {
-                narrador.voice = vozSeleccionada;
-            } else {
-                console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
-            }
-
-            window.speechSynthesis.speak(narrador);
+        const vocesDisponibles = window.speechSynthesis.getVoices();
+        const vozSeleccionada = vocesDisponibles.find(voz => voz.lang === 'es-ES');
+    
+        if (vozSeleccionada) {
+            narrador.voice = vozSeleccionada;
+        } else {
+            console.warn('No se encontró una voz en español. Usando la voz predeterminada.');
         }
 
-        document.querySelectorAll('[aria-label]').forEach(elemento => {
-            elemento.addEventListener('mouseover', () => {
-                const descripcion = elemento.getAttribute('aria-label');
-                narrar(descripcion);
-            });
-        });
+        window.speechSynthesis.speak(narrador);
+    }
 
-        document.querySelectorAll('input, textarea').forEach(input => {
-            input.addEventListener('input', () => {
-                const textoIngresado = input.value;
-                narrar(textoIngresado);
-            });
-        });
-    </script>
+    // Agregar el evento de validación en el formulario
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+        let mensajeError = '';
+        let erroresEncontrados = false;
 
+        // Validar nombre
+        if (!document.getElementById('first_name').checkValidity()) {
+            mensajeError += 'Por favor ingresa un nombre válido. ';
+            erroresEncontrados = true;
+        }
+
+        // Validar apellido
+        if (!document.getElementById('last_name').checkValidity()) {
+            mensajeError += 'Por favor ingresa un apellido válido. ';
+            erroresEncontrados = true;
+        }
+
+        // Validar correo electrónico
+        if (!document.getElementById('email').checkValidity()) {
+            mensajeError += 'Por favor ingresa un correo electrónico válido. ';
+            erroresEncontrados = true;
+        }
+
+        // Validar teléfono
+        if (!document.getElementById('phone').checkValidity()) {
+            mensajeError += 'Por favor ingresa un número de teléfono válido. ';
+            erroresEncontrados = true;
+        }
+
+        // Validar mensaje
+        if (!document.getElementById('message').checkValidity()) {
+            mensajeError += 'Por favor escribe un mensaje. ';
+            erroresEncontrados = true;
+        }
+
+        if (erroresEncontrados) {
+            narrar(mensajeError); // Narrar los errores
+            event.preventDefault(); // Evitar el envío del formulario hasta que se corrijan los errores
+        }
+    });
+
+    document.querySelectorAll('[aria-label]').forEach(elemento => {
+        elemento.addEventListener('mouseover', () => {
+            const descripcion = elemento.getAttribute('aria-label');
+            narrar(descripcion);
+        });
+    });
+
+    document.querySelectorAll('input, textarea').forEach(input => {
+        input.addEventListener('input', () => {
+            const textoIngresado = input.value;
+            narrar(textoIngresado);
+        });
+    });
+</script>
 </body>
 </html>

@@ -51,91 +51,92 @@
 
     <!-- Sección de Habitaciones -->
     <section id="rooms" class="rooms">
-        <div class="section-title">
-            <h2>Hotel Luna</h2>
+    <div class="section-title">
+        <h2>Hotel Luna</h2>
+    </div>
+    <div class="room-booking-container">
+        <div class="room-grid">
+            <!-- Habitaciones -->
+            <div class="room">
+                <div class="room-image" style="background-image: url('img/h2.jpg');"></div>
+                <h1 id="room-type-label" style="padding-top: 30px; font-size:32px">Seleccione un tipo</h1>
+            </div>                                 
         </div>
-        <div class="room-booking-container">
-            <div class="room-grid">
-                <!-- Habitaciones -->
-                <div class="room">
-                    <div class="room-image" style="background-image: url('img/h2.jpg');"></div>
-                    <h1 id="room-type-label" style="padding-top: 30px; font-size:32px">Seleccione un tipo</h1>
-                </div>                                 
-            </div>
-            <div id="booking-form">
-                <div class="booking-container">
-                    <h2>Reservar Habitación</h2>
-                    <form action="{{ route('reservaciones.store2') }}" method="POST" onsubmit="handleFormSubmit(event)">
-                        @csrf
-                        <div class="form-group-row">
-                            <div class="form-group">
-                                <label for="nombre">Nombre del Cliente</label>
-                                <input type="text" name="nombre" id="nombre" class="form-control" required onfocus="narrarEntrada('Por favor ingrese su nombre')">
-                            </div>
-                            <div class="form-group">
-                                <label for="telefono">Teléfono</label>
-                                <input type="text" name="telefono" id="telefono" class="form-control" required onfocus="narrarEntrada('Por favor ingrese su número de teléfono')">
-                            </div>
+        <div id="booking-form">
+            <div class="booking-container">
+                <h2>Reservar Habitación</h2>
+                <form action="{{ route('reservaciones.store2') }}" method="POST" onsubmit="handleFormSubmit(event)">
+                    @csrf
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="nombre">Nombre del Cliente</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control" required onfocus="narrarEntrada('Por favor ingrese su nombre')">
                         </div>
-                        <div class="form-group-row">
-                            <div class="form-group">
-                                <label for="direccion">Dirección</label>
-                                <input type="text" name="direccion" id="direccion" class="form-control" required onfocus="narrarEntrada('Por favor ingrese su dirección')">
-                            </div>
-                            <div class="form-group">
-                                <label for="email">Correo Electrónico</label>
-                                <input type="email" name="email" id="email" class="form-control" required onfocus="narrarEntrada('Por favor ingrese su correo electrónico')">
-                            </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono</label>
+                            <input type="text" name="telefono" id="telefono" class="form-control" required onfocus="narrarEntrada('Por favor ingrese su número de teléfono')">
                         </div>
-                        <div class="form-group-row">
-                            <div class="form-group">
-                                <label for="hotel_id">Hotel:</label>
-                                <select id="hotel_id" name="hotel_id" class="form-control" required onfocus="narrarEntrada('Seleccione el hotel de su preferencia')">
-                                    <option value="3">Hotel Luna</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="tipo_habitacion_id">Tipo de Habitación:</label>
-                                <select id="tipo_habitacion_id" name="tipo_habitacion_id" class="form-control" onchange="updateRoomTypeLabel()" required onfocus="narrarEntrada('Seleccione el tipo de habitación')">
-                                    <option value="">Seleccione un tipo</option>
-                                    <option value="1">Individual</option>
-                                    <option value="2">Doble</option>
-                                    <option value="3">Suite</option>
-                                    <option value="4">Suite Presidencial</option>
-                                    <option value="5">Familiar</option>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="direccion">Dirección</label>
+                            <input type="text" name="direccion" id="direccion" class="form-control" required onfocus="narrarEntrada('Por favor ingrese su dirección')">
                         </div>
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" name="email" id="email" class="form-control" required onfocus="narrarEntrada('Por favor ingrese su correo electrónico')">
+                        </div>
+                    </div>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="hotel_id">Hotel:</label>
+                            <select id="hotel_id" name="hotel_id" class="form-control" required onfocus="narrarEntrada('Seleccione el hotel de su preferencia')">
+                                <option value="3">Hotel Luna</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo_habitacion_id">Tipo de Habitación:</label>
+                            <select id="tipo_habitacion_id" name="tipo_habitacion_id" class="form-control" onchange="updateRoomTypeLabel()" required onfocus="narrarEntrada('Seleccione el tipo de habitación')">
+                                <option value="">Seleccione un tipo</option>
+                                <option value="1">Individual</option>
+                                <option value="2">Doble</option>
+                                <option value="3">Suite</option>
+                                <option value="4">Suite Presidencial</option>
+                                <option value="5">Familiar</option>
+                            </select>
+                        </div>
+                    </div>
 
-                        <div class="form-group-row">
-                            <div class="form-group">
-                                <label for="fecha_entrada">Fecha de Entrada</label>
-                                <input type="date" name="fecha_entrada" id="fecha_entrada" class="form-control" required onfocus="narrarEntrada('Seleccione la fecha de entrada')">
-                            </div>
-                            <div class="form-group">
-                                <label for="fecha_salida">Fecha de Salida</label>
-                                <input type="date" name="fecha_salida" id="fecha_salida" class="form-control" required onfocus="narrarEntrada('Seleccione la fecha de salida')">
-                            </div>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="fecha_entrada">Fecha de Entrada</label>
+                            <input type="date" name="fecha_entrada" id="fecha_entrada" class="form-control" required onfocus="narrarEntrada('Seleccione la fecha de entrada')">
                         </div>
-                        <div id="inventario"></div>
-                        <div id="habitaciones"></div>
-                        <div class="form-group-row">
-                            <div class="form-group">
-                                <label for="codigo_promocional">Cupón Promocional</label>
-                                <input type="text" name="codigo_promocional" id="codigo_promocional" class="form-control" onfocus="narrarEntrada('Si tiene un cupón promocional, ingréselo aquí')">
-                            </div>
-                            <div class="form-group">
-                                <label for="notas">Notas</label>
-                                <textarea name="notas" id="notas" class="form-control" onfocus="narrarEntrada('Si tiene alguna nota adicional, ingrésela aquí')"></textarea>
-                            </div>
+                        <div class="form-group">
+                            <label for="fecha_salida">Fecha de Salida</label>
+                            <input type="date" name="fecha_salida" id="fecha_salida" class="form-control" required onfocus="narrarEntrada('Seleccione la fecha de salida')">
                         </div>
-                        <div class="form-group" style="width: 100%; padding-top: 30px;">
-                            <button type="submit" class="btn btn-primary btn-large" style="width: 100%; height: 50px; font-size: 32px;">Reservar</button>
+                    </div>
+                    <div id="inventario"></div>
+                    <div id="habitaciones"></div>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="codigo_promocional">Cupón Promocional</label>
+                            <input type="text" name="codigo_promocional" id="codigo_promocional" class="form-control" onfocus="narrarEntrada('Si tiene un cupón promocional, ingréselo aquí')">
                         </div>
-                    </form>
-                </div>
+                        <div class="form-group">
+                            <label for="notas">Notas</label>
+                            <textarea name="notas" id="notas" class="form-control" onfocus="narrarEntrada('Si tiene alguna nota adicional, ingrésela aquí')"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group" style="width: 100%; padding-top: 30px;">
+                        <button type="submit" class="btn btn-primary btn-large" style="width: 100%; height: 50px; font-size: 32px;">Reservar</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </div>
+</section>
 
     @if ($errors->any())
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

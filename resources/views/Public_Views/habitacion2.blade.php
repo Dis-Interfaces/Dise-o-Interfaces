@@ -71,21 +71,21 @@
                     <div class="form-group-row">
                         <div class="form-group">
                             <label for="nombre" aria-label="Nombre del Cliente">Nombre del Cliente</label>
-                            <input type="text" name="nombre" id="nombre" class="form-control" oninput="narrateInput('nombre')" required>
+                            <input type="text" name="nombre" id="nombre" class="form-control" oninput="narrateInput('nombre')" required pattern="[A-Za-zÁ-ÿ ]+" title="Solo se permiten letras y espacios">
                         </div>
                         <div class="form-group">
                             <label for="telefono" aria-label="Teléfono">Teléfono</label>
-                            <input type="text" name="telefono" id="telefono" class="form-control" oninput="narrateInput('telefono')" required>
+                            <input type="tel" name="telefono" id="telefono" class="form-control" oninput="narrateInput('telefono')" required pattern="^\+?\d{1,4}?[.-\s]?\(?\d{1,3}\)?[.-\s]?\d{1,3}[.-\s]?\d{1,4}$" title="Por favor ingresa un número de teléfono válido, por ejemplo: +123 456 7890">
                         </div>
                     </div>
                     <div class="form-group-row">
                         <div class="form-group">
                             <label for="direccion" aria-label="Dirección">Dirección</label>
-                            <input type="text" name="direccion" id="direccion" class="form-control" oninput="narrateInput('direccion')" required>
+                            <input type="text" name="direccion" id="direccion" class="form-control" oninput="narrateInput('direccion')" required pattern="[A-Za-z0-9Á-ÿ\s,.-]+" title="Solo se permiten letras, números y algunos caracteres especiales como coma, punto y guión">
                         </div>
                         <div class="form-group">
                             <label for="email" aria-label="Correo Electrónico">Correo Electrónico</label>
-                            <input type="email" name="email" id="email" class="form-control" oninput="narrateInput('email')" required>
+                            <input type="email" name="email" id="email" class="form-control" oninput="narrateInput('email')" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Por favor ingresa un correo electrónico válido">
                         </div>
                     </div>
                     <div class="form-group-row">
@@ -123,7 +123,7 @@
                     <div class="form-group-row">
                         <div class="form-group">
                             <label for="codigo_promocional" aria-label="Cupón Promocional">Cupón Promocional</label>
-                            <input type="text" name="codigo_promocional" id="codigo_promocional" class="form-control" oninput="narrateInput('codigo_promocional')">
+                            <input type="text" name="codigo_promocional" id="codigo_promocional" class="form-control" oninput="narrateInput('codigo_promocional')" pattern="[A-Za-z0-9]+" title="Solo se permiten letras y números">
                         </div>
                         <div class="form-group">
                             <label for="notas" aria-label="Notas">Notas</label>
@@ -137,6 +137,7 @@
             </div>
         </div>
     </div>
+</section>
 
     @if ($errors->any())
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
